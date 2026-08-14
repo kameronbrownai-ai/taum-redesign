@@ -179,6 +179,13 @@
     + '.tc-form input{flex:1;min-width:0;padding:10px 14px;border:2px solid var(--ink,#20264C);border-radius:999px;font-family:inherit;font-size:.95rem}'
     + '.tc-form button{background:var(--indigo,#2A3060);color:var(--cream,#FBF7EC);border:2px solid var(--ink,#20264C);'
     + 'border-radius:999px;padding:10px 16px;font-family:inherit;font-weight:900;cursor:pointer}'
+    + '.tc-icon{background:#fff !important;color:var(--ink,#20264C) !important;padding:10px 12px !important;display:flex;align-items:center;justify-content:center}'
+    + '.tc-icon svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round}'
+    + '.tc-icon.on{background:var(--coral,#F0765C) !important}'
+    + '.tc-icon.rec{background:var(--coral,#F0765C) !important;animation:tcPulse 1.1s ease-in-out infinite}'
+    + '@keyframes tcPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}'
+    + '@media (prefers-reduced-motion: reduce){.tc-icon.rec{animation:none}}'
+    + '.tc-voicebar{display:flex;align-items:center;gap:8px;padding:0 16px 10px;font-size:.78rem;color:var(--indigo-soft,#4A5185);flex-shrink:0}'
     + '.tc-note{font-size:.72rem;color:var(--indigo-soft,#4A5185);text-align:center;padding:0 16px 10px;flex-shrink:0}'
     + '@media(max-width:480px){.tc-panel{right:8px;left:8px;bottom:8px;width:auto;max-height:calc(100vh - 16px)}'
     + '.tc-btn{right:12px;bottom:12px;padding:11px 17px;font-size:.94rem}}';
@@ -201,9 +208,15 @@
     + '<button class="tc-x" aria-label="Close">&times;</button></div>'
     + '<div class="tc-log" id="tcLog" aria-live="polite"></div>'
     + '<div class="tc-chips" id="tcChips"></div>'
-    + '<form class="tc-form" id="tcForm"><input id="tcInput" type="text" autocomplete="off" '
+    + '<form class="tc-form" id="tcForm">'
+    + '<button type="button" class="tc-icon" id="tcMic" aria-label="Speak your question" title="Speak your question">'
+    + '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button>'
+    + '<button type="button" class="tc-icon" id="tcSpk" aria-label="Read answers aloud" aria-pressed="false" title="Read answers aloud">'
+    + '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M17 8.5a5 5 0 0 1 0 7"/></svg></button>'
+    + '<input id="tcInput" type="text" autocomplete="off" '
     + 'placeholder="Ask about food, furniture, hours..." aria-label="Type your question"><button type="submit">Ask</button></form>'
-    + '<p class="tc-note">Answers come from this website. Nothing you type leaves your device.</p>';
+    + '<p class="tc-voicebar" id="tcVoiceBar"></p>'
+    + '<p class="tc-note">Answers come from this website. Nothing you type or say leaves your device.</p>';
 
   document.body.appendChild(btn);
   document.body.appendChild(panel);
@@ -230,6 +243,7 @@
     }
     log.appendChild(d);
     log.scrollTop = log.scrollHeight;
+    if (who !== 'me' && typeof say === 'function') say(html);
   }
 
   var lastQuestion = '';
@@ -284,6 +298,84 @@
     ask(v);
   });
 
+  /* ---- Voice: speak your question, and hear answers read aloud ----
+     Uses the browser's own speech engines. No service, no account,
+     and nothing spoken is sent anywhere. */
+  var mic = panel.querySelector('#tcMic');
+  var spk = panel.querySelector('#tcSpk');
+  var voiceBar = panel.querySelector('#tcVoiceBar');
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  var canHear = !!SR;
+  var canSpeak = 'speechSynthesis' in window;
+  var speakOn = false;
+  var rec = null, listening = false;
+
+  function say(html) {
+    if (!canSpeak || !speakOn) return;
+    var tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    var text = (tmp.textContent || '').replace(/\s+/g, ' ').trim();
+    if (!text) return;
+    try {
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(text);
+      u.rate = 0.98;
+      u.pitch = 1;
+      window.speechSynthesis.speak(u);
+    } catch (e) { /* speech unavailable; text is still on screen */ }
+  }
+
+  if (!canHear) {
+    mic.style.display = 'none';
+  } else {
+    mic.addEventListener('click', function () {
+      if (listening) { try { rec.stop(); } catch (e) {} return; }
+      try {
+        rec = new SR();
+        rec.lang = 'en-US';
+        rec.interimResults = false;
+        rec.maxAlternatives = 1;
+        rec.onstart = function () {
+          listening = true;
+          mic.classList.add('rec');
+          voiceBar.textContent = 'Listening. Speak your question.';
+        };
+        rec.onresult = function (e) {
+          var said = e.results[0][0].transcript;
+          voiceBar.textContent = '';
+          if (said) ask(said);
+        };
+        rec.onerror = function (e) {
+          voiceBar.textContent = e.error === 'not-allowed'
+            ? 'Microphone blocked. You can allow it in your browser settings, or type instead.'
+            : 'Sorry, I did not catch that. Try again or type your question.';
+        };
+        rec.onend = function () { listening = false; mic.classList.remove('rec'); };
+        rec.start();
+      } catch (err) {
+        voiceBar.textContent = 'Voice input is not available in this browser. Please type instead.';
+      }
+    });
+  }
+
+  if (!canSpeak) {
+    spk.style.display = 'none';
+  } else {
+    spk.addEventListener('click', function () {
+      speakOn = !speakOn;
+      spk.classList.toggle('on', speakOn);
+      spk.setAttribute('aria-pressed', speakOn ? 'true' : 'false');
+      if (speakOn) {
+        voiceBar.textContent = 'Reading answers aloud.';
+        var last = log.querySelector('.tc-bot:last-of-type');
+        if (last) say(last.innerHTML);
+      } else {
+        voiceBar.textContent = '';
+        try { window.speechSynthesis.cancel(); } catch (e) {}
+      }
+    });
+  }
+
   var started = false;
   function open() {
     panel.classList.add('open');
@@ -298,6 +390,8 @@
     panel.classList.remove('open');
     btn.style.display = '';
     btn.focus();
+    try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch (e) {}
+    try { if (listening && rec) rec.stop(); } catch (e) {}
   }
 
   btn.addEventListener('click', open);
