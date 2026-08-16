@@ -13,7 +13,7 @@
       id: 'furniture-get',
       keys: ['furniture','bed','beds','bedroom','mattress','dresser','table','chair','chairs','couch','sofa','need furniture','get furniture','sleep on','nothing to sit'],
       answer: "TAUM's Furniture Program gives good, used furniture <strong>free of charge, with free delivery</strong>, to neighbors starting over. Call <strong>Tyara Burnett at (518) 274-5920 ext. 204</strong>. If you're working with a caseworker or shelter, they can refer you directly.",
-      links: [['See the furniture page','furniture.html'],['Call ext. 204','tel:+15182745920']]
+      links: [['See the furniture page','furniture.html'],['Call ext. 204','tel:+15182745920,,204']]
     },
     {
       id: 'furniture-give',
@@ -37,7 +37,7 @@
       id: 'teens',
       keys: ['teen','teens','youth','summer job','summer program','laptop','coding','computer class','tech for teens','student job','job training'],
       answer: "Tech for Teens is a <strong>free summer program</strong> for Rensselaer County teens. Students earn a paycheck through the county's Summer Youth Employment Program, learn Office, web design, and coding, and every graduate keeps a refurbished laptop. Applications open each spring.",
-      links: [['Tech for Teens','tech-for-teens.html'],['Call ext. 202','tel:+15182745920']]
+      links: [['Tech for Teens','tech-for-teens.html'],['Call ext. 202','tel:+15182745920,,202']]
     },
     {
       id: 'scholarship',
@@ -260,7 +260,9 @@
 
   function handoff(staffKey, question) {
     var s = STAFF[staffKey] || STAFF.office;
-    var phoneHref = s.phone ? 'tel:+1' + s.phone : 'tel:+15182745920';
+    var phoneHref = s.phone
+      ? 'tel:+1' + s.phone
+      : ('tel:+15182745920' + (s.ext ? ',,' + s.ext : ''));
     var phoneText = s.phoneLabel ? s.phoneLabel : ('(518) 274-5920' + (s.ext ? ' ext. ' + s.ext : ''));
     var msg = "Want to talk to a person about this? <strong>" + s.who + "</strong>"
       + (s.role ? ', ' + s.role : '') + " handles this one.";
