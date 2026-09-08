@@ -355,3 +355,65 @@ details .a a { font-weight: 700; }
   table.contacts td:first-child { font-weight: 800; color: var(--ink); padding-top: 4px; }
   table.contacts td:last-child { color: var(--indigo-soft); font-size: .93rem; padding-bottom: 6px; }
 }
+
+/* ── News and events ───────────────────────────────────────────── */
+
+/* Event row: a tear-off date block beside the details */
+.evt {
+  display: grid; grid-template-columns: 96px 1fr; gap: 22px; align-items: start;
+  background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius);
+  box-shadow: 5px 5px 0 var(--ink); padding: 22px 26px; margin-top: 18px;
+  transition: transform .18s, box-shadow .18s;
+}
+.evt:hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0 var(--ink); }
+.evt .date {
+  background: var(--coral); border: 2px solid var(--ink); border-radius: 10px;
+  text-align: center; padding: 10px 6px; color: var(--ink);
+}
+.evt .date .mo { display: block; font-size: .74rem; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
+.evt .date .dy { display: block; font-family: 'Fraunces', Georgia, serif; font-size: 2rem; font-weight: 700; line-height: 1; }
+.evt .date .yr { display: block; font-size: .7rem; font-weight: 700; opacity: .75; }
+.evt h3 { margin-bottom: 4px; }
+.evt .when { font-size: .92rem; font-weight: 800; color: var(--teal-deep); }
+.evt p { margin-top: 8px; color: var(--indigo-soft); }
+.evt .actions { margin-top: 14px; }
+
+/* Recurring weekly things get a calmer, flatter treatment */
+.evt.recurring { box-shadow: 5px 5px 0 var(--aqua); }
+.evt.recurring .date { background: var(--aqua); }
+
+@media (max-width: 560px) {
+  .evt { grid-template-columns: 1fr; gap: 14px; padding: 20px; }
+  .evt .date { display: flex; align-items: baseline; gap: 8px; justify-content: center; padding: 8px 12px; }
+  .evt .date .dy { font-size: 1.4rem; }
+}
+
+/* Dated news post */
+.post { border-left: 4px solid var(--aqua); padding: 4px 0 4px 22px; margin-top: 30px; }
+.post .stamp { font-size: .8rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; color: var(--indigo-soft); }
+.post h3 { margin: 6px 0 8px; }
+.post p { color: var(--indigo-soft); }
+
+/* Placeholder for a section with nothing in it yet */
+.emptybox {
+  background: var(--aqua-pale); border: 2px dashed var(--ink); border-radius: var(--radius);
+  padding: 26px 30px; margin-top: 20px; color: var(--indigo-soft);
+}
+.emptybox strong { color: var(--ink); }
+
+/* ── Partners and sponsors ─────────────────────────────────────── */
+.partners { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; padding: 0; list-style: none; }
+.partners li {
+  background: var(--white); border: 2px solid var(--ink); border-radius: 999px;
+  box-shadow: 3px 3px 0 var(--ink); padding: 9px 20px; font-weight: 700; font-size: .95rem;
+}
+.partners li a { color: var(--ink); text-decoration: none; }
+.partners li a:hover { color: var(--coral-dark); text-decoration: underline; }
+
+/* Sponsor tiers */
+.tier { margin-top: 30px; }
+.tier > h3 {
+  font-family: 'Nunito Sans', sans-serif; font-size: .82rem; font-weight: 900;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--indigo-soft);
+  padding-bottom: 8px; border-bottom: 2px solid rgba(32,38,76,.14);
+}

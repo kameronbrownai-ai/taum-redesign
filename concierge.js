@@ -6,7 +6,7 @@
     {
       id: 'food',
       keys: ['food','eat','eating','hungry','hunger','meal','meals','lunch','dinner','breakfast','pantry','grocery','groceries','fridge','refrigerator','feed','starving','free food'],
-      answer: "Free food, no questions asked. Hot lunch is served <strong>weekdays 11:30 am to 1:00 pm</strong> at 392 Second Street. Groceries are available during office hours, and the <strong>Free Food Fridge outside our building is open 24 hours a day</strong>. You don't need an ID or a referral.",
+      answer: "Free food, no questions asked. Community meals are <strong>Monday evenings at 5:45</strong> and <strong>Thursdays at noon</strong> at 392 Second Street. Groceries go out with the Thursday meal. The <strong>Free Food Fridge outside our building is open 24 hours a day</strong>, and we try to keep prepared food in it on other days. You don't need an ID or a referral.",
       links: [['See the food page','food.html'],['Call (518) 274-5920','tel:+15182745920']]
     },
     {
@@ -66,7 +66,7 @@
     {
       id: 'hours',
       keys: ['hours','open','close','closed','when','today','time','what time','directions','address','where','location','parking','find you'],
-      answer: "We're at <strong>392 2nd Street, Troy, NY 12180</strong>. Office hours are <strong>Monday to Friday, 9 am to 4 pm</strong>. Hot lunch is 11:30 to 1 on weekdays, and the Free Food Fridge outside never closes.",
+      answer: "We're at <strong>392 2nd Street, Troy, NY 12180</strong>. Office hours are <strong>Monday to Friday, 9 am to 4 pm</strong>. Community meals are Monday at 5:45 pm and Thursday at noon, and the Free Food Fridge outside never closes.",
       links: [['Contact and directions','contact.html'],['Call (518) 274-5920','tel:+15182745920']]
     },
     {
