@@ -1,1 +1,10 @@
+# macOS
 .DS_Store
+
+# Deploy scripts hold SSH host, user, and port. They stay on this machine only.
+deploy-*.sh
+
+# Generated import bundle (rebuilt from site/ by wp-theme/build-import.py)
+wp-theme/import/pages/
+wp-theme/import/manifest.json
+

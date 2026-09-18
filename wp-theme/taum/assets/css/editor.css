@@ -1,0 +1,6 @@
+/* Block editor preview: load the design so cards and callouts look right
+   while editing. The editor wraps content in .editor-styles-wrapper. */
+@import url('styles.css');
+.editor-styles-wrapper { background: var(--cream); color: var(--ink); font-family: 'Nunito Sans', system-ui, sans-serif; font-size: 17px; line-height: 1.65; }
+.editor-styles-wrapper h1, .editor-styles-wrapper h2, .editor-styles-wrapper h3 { font-family: 'Fraunces', Georgia, serif; font-weight: 640; line-height: 1.06; }
+.editor-styles-wrapper .grid2, .editor-styles-wrapper .cards, .editor-styles-wrapper .facts, .editor-styles-wrapper .people, .editor-styles-wrapper .prog-grid, .editor-styles-wrapper .yes-no { display: grid; }

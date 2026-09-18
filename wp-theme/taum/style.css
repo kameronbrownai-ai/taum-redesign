@@ -1,0 +1,14 @@
+/*
+Theme Name: TAUM
+Theme URI: https://taum.org
+Author: Kameron Brown
+Description: Custom theme for Troy Area United Ministries. A neighborhood center where everyone belongs.
+Version: 1.0.0
+Requires at least: 6.5
+Tested up to: 7.1
+Requires PHP: 8.0
+License: GNU General Public License v2 or later
+Text Domain: taum
+*/
+
+/* The real stylesheet lives in assets/css/styles.css and is enqueued from functions.php. */
