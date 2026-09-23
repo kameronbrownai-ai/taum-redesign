@@ -27,7 +27,7 @@ body.admin-bar .site { top: 32px; }
 .wp-block-gallery.has-nested-images figure.wp-block-image img { width: 100%; height: auto; display: block; border-radius: 0; }
 .wp-block-gallery.has-nested-images figure.wp-block-image figcaption {
   position: absolute; left: 0; right: 0; bottom: 0; margin: 0; padding: 20px 14px 10px; text-align: left;
-  background: linear-gradient(transparent, rgba(32,38,76,.82)); color: var(--cream);
+  background: linear-gradient(rgba(32,38,76,0), rgba(32,38,76,.95)); color: var(--cream);
   font-size: .82rem; font-weight: 700; opacity: 0; transition: opacity .2s;
 }
 .wp-block-gallery.has-nested-images figure.wp-block-image:hover figcaption { opacity: 1; }

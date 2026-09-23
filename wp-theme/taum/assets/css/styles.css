@@ -4,7 +4,7 @@
   --aqua: #7AD4E8;
   --aqua-pale: #DCF2F8;
   --coral: #F0765C;
-  --coral-dark: #C94B2E;
+  --coral-dark: #B84326; /* 5.07:1 on cream, clears WCAG AA for body text */
   --peach: #F2A98E;
   --peach-pale: #FBE7DC;
   --magenta: #A24E97;
@@ -13,6 +13,7 @@
   --indigo-soft: #4A5185;
   --ink: #20264C;
   --olive: #7C8C3F;
+  --olive-deep: #5E6B2C; /* 5.4:1 under cream/white text, for surfaces carrying light type */
   --olive-pale: #EEF1DB;
   --teal-deep: #1F6E82;
   --white: #FFFFFF;
@@ -127,6 +128,9 @@ header.site {
 .kicker::before { content: ""; width: 30px; height: 3px; background: var(--coral); border-radius: 2px; }
 .kicker.on-dark { color: var(--aqua); }
 .kicker.on-dark::before { background: var(--aqua); }
+/* Coral on the aqua and peach hero grounds only reaches 3.2:1. Ink clears 8.6:1
+   there and the coral rule before it keeps the accent. */
+.page-hero .kicker, .faq-hero .kicker { color: var(--ink); }
 
 .quickbar { background: var(--indigo); color: var(--cream); }
 .quickbar .wrap { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0; }
@@ -182,7 +186,7 @@ section { padding: 84px 0; position: relative; }
 .t-indigo { background: var(--indigo); }
 .t-coral { background: var(--coral-dark); }
 .t-teal { background: var(--teal-deep); }
-.t-olive { background: var(--olive); }
+.t-olive { background: var(--olive-deep); }
 .t-magenta { background: var(--magenta-deep); }
 .t-slate { background: var(--indigo-soft); }
 
@@ -201,10 +205,10 @@ section { padding: 84px 0; position: relative; }
 }
 .flame-badge .big { font-family: 'Fraunces', serif; font-size: 4.4rem; color: var(--magenta-deep); font-weight: 700; line-height: 1; }
 
-.banner { background: var(--olive); color: var(--white); }
+.banner { background: var(--olive-deep); color: var(--white); }
 .banner .wrap { display: flex; gap: 34px; align-items: center; justify-content: space-between; flex-wrap: wrap; padding-top: 58px; padding-bottom: 58px; }
 .banner h2 { color: var(--white); max-width: 14em; }
-.banner p { max-width: 32em; opacity: .95; margin-top: 12px; }
+.banner p { max-width: 32em; margin-top: 12px; }
 .banner .btn { background: var(--cream); }
 
 .newsletter { text-align: center; }
@@ -339,7 +343,7 @@ details .a a { font-weight: 700; }
 .gallery-item img { width: 100%; display: block; }
 .gallery-item .cap {
   position: absolute; left: 0; right: 0; bottom: 0; padding: 20px 14px 10px;
-  background: linear-gradient(transparent, rgba(32,38,76,.82)); color: var(--cream);
+  background: linear-gradient(rgba(32,38,76,0), rgba(32,38,76,.95)); color: var(--cream);
   font-size: .82rem; font-weight: 700; opacity: 0; transition: opacity .2s;
 }
 .gallery-item:hover .cap { opacity: 1; }
