@@ -135,6 +135,55 @@ function taum_event_card( $post ) {
 }
 
 /**
+ * The single soonest dated event still to come. Drives the homepage flyer
+ * spotlight, so Abby publishes an event with a flyer and it promotes itself.
+ */
+function taum_next_event() {
+	$q = get_posts( array(
+		'post_type'      => 'taum_event',
+		'posts_per_page' => 1,
+		'post_status'    => 'publish',
+		'meta_key'       => 'taum_event_date',
+		'orderby'        => 'meta_value',
+		'order'          => 'ASC',
+		'meta_query'     => array(
+			array( 'key' => 'taum_event_date', 'value' => wp_date( 'Y-m-d' ), 'compare' => '>=', 'type' => 'DATE' ),
+			array(
+				'relation' => 'OR',
+				array( 'key' => 'taum_event_recurring', 'compare' => 'NOT EXISTS' ),
+				array( 'key' => 'taum_event_recurring', 'value' => '' ),
+			),
+		),
+	) );
+	return $q ? $q[0] : null;
+}
+
+/**
+ * Flyers from events that have already happened. The gallery shows these, so
+ * a flyer moves from the homepage to the archive on its own the day after.
+ */
+function taum_past_event_flyers( $limit = 24 ) {
+	$out = array();
+	$past = get_posts( array(
+		'post_type'      => 'taum_event',
+		'posts_per_page' => $limit,
+		'post_status'    => 'publish',
+		'meta_key'       => 'taum_event_date',
+		'orderby'        => 'meta_value',
+		'order'          => 'DESC',
+		'meta_query'     => array(
+			array( 'key' => 'taum_event_date', 'value' => wp_date( 'Y-m-d' ), 'compare' => '<', 'type' => 'DATE' ),
+		),
+	) );
+	foreach ( $past as $ev ) {
+		if ( has_post_thumbnail( $ev ) ) {
+			$out[] = $ev;
+		}
+	}
+	return $out;
+}
+
+/**
  * Partners grouped by tier, for the About page.
  */
 function taum_partners_by_tier() {

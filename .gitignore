@@ -8,3 +8,6 @@ deploy-*.sh
 wp-theme/import/pages/
 wp-theme/import/manifest.json
 
+
+# Flyer images are pushed to the server by hand, not tracked here
+wp-theme/import/flyers/

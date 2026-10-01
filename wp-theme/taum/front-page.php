@@ -52,6 +52,43 @@ $tiles = array(
 
 <div class="angle-strip" aria-hidden="true"></div>
 
+<?php
+/**
+ * Next event, with its flyer. The soonest dated event takes this slot by
+ * itself; once the date passes, the flyer moves to the gallery archive.
+ */
+$next = taum_next_event();
+if ( $next ) :
+	$nid   = $next->ID;
+	$ndate = get_post_meta( $nid, 'taum_event_date', true );
+	$ntime = get_post_meta( $nid, 'taum_event_time', true );
+	$nplace= get_post_meta( $nid, 'taum_event_place', true );
+	$nurl  = get_post_meta( $nid, 'taum_event_url', true );
+	$nlbl  = get_post_meta( $nid, 'taum_event_url_label', true );
+	$nwhen = trim( ( $ndate ? date_i18n( 'l, F j', strtotime( $ndate ) ) : '' ) . ( $ntime ? ' · ' . $ntime : '' ) );
+?>
+<section class="next-up">
+ <div class="wrap next-up-grid reveal<?php echo has_post_thumbnail( $nid ) ? '' : ' no-flyer'; ?>">
+  <?php if ( has_post_thumbnail( $nid ) ) : ?>
+  <a class="flyer" href="<?php echo esc_url( get_permalink( $nid ) ); ?>">
+   <?php echo get_the_post_thumbnail( $nid, 'large', array( 'alt' => sprintf( esc_attr__( 'Flyer for %s', 'taum' ), get_the_title( $nid ) ) ) ); ?>
+  </a>
+  <?php endif; ?>
+  <div>
+   <p class="kicker"><?php esc_html_e( 'Next up', 'taum' ); ?></p>
+   <h2><?php echo esc_html( get_the_title( $nid ) ); ?></h2>
+   <?php if ( $nwhen ) : ?><p class="when-big"><?php echo esc_html( $nwhen ); ?></p><?php endif; ?>
+   <?php if ( $nplace ) : ?><p class="where"><?php echo esc_html( $nplace ); ?></p><?php endif; ?>
+   <div class="prose" style="margin-top:14px;"><?php echo wpautop( wp_kses_post( $next->post_content ) ); ?></div>
+   <p class="actions" style="margin-top:20px;">
+    <?php if ( $nurl ) : ?><a class="btn" href="<?php echo esc_url( $nurl ); ?>"><?php echo esc_html( $nlbl ? $nlbl : __( 'Details', 'taum' ) ); ?></a><?php endif; ?>
+    <a class="btn ghost" href="<?php echo esc_url( home_url( '/news/#events' ) ); ?>"><?php esc_html_e( 'All events', 'taum' ); ?></a>
+   </p>
+  </div>
+ </div>
+</section>
+<?php endif; ?>
+
 <?php $now = taum_home_posts(); if ( $now ) : ?>
 <section>
  <div class="wrap">
