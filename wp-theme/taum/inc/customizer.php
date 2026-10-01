@@ -40,7 +40,7 @@ function taum_option_fields() {
 		// Links
 		'url_donate'    => array( 'Online giving page', 'https://taum.org/donate/', 'url', 'links' ),
 		'url_newsletter'=> array( 'Newsletter signup', 'https://secure.lglforms.com/form_engine/s/zmQHJr8EUVLsa5i9JZzIrw', 'url', 'links' ),
-		'url_volunteer' => array( 'Volunteer form', 'https://forms.gle/BWSMYFMgri5MybR97', 'url', 'links' ),
+		'url_volunteer' => array( 'Volunteer form', 'https://secure.lglforms.com/form_engine/s/tyo0i-3Yd8ZON3oFUVTWuQ', 'url', 'links' ),
 		'url_garden'    => array( 'Garden campaign giving page', 'https://secure.lglforms.com/form_engine/s/Kr1X6bDWzYn2WsP_7ufiYw', 'url', 'links' ),
 		'url_flames'    => array( 'Forty Flames form', 'https://docs.google.com/forms/d/e/1FAIpQLSc3lvfd-69c7KV95N8lchVQaoVPV_EZ4qFsUpPTWqsr_oxoLA/viewform', 'url', 'links' ),
 		'url_syep'      => array( 'County Summer Youth Employment page', 'https://www.rensco.com/406/Youth', 'url', 'links' ),

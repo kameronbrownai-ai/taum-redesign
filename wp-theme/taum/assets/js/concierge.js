@@ -25,7 +25,7 @@
       id: 'volunteer',
       keys: ['volunteer','volunteering','help out','get involved','give time','serve','sign up'],
       answer: "We'd love the help. There's kitchen crew, furniture moving, stocking the Free Food Fridge, gardening, mentoring teens, and event help. Tell us what interests you and we'll be in touch within a week.",
-      links: [['Get involved','/get-involved/'],['Volunteer form','https://forms.gle/BWSMYFMgri5MybR97']]
+      links: [['Get involved','/get-involved/'],['Volunteer form','https://secure.lglforms.com/form_engine/s/tyo0i-3Yd8ZON3oFUVTWuQ']]
     },
     {
       id: 'donate',
