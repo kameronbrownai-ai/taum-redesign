@@ -111,6 +111,20 @@ function taum_event_card( $post ) {
 	 <div>
 	  <h3><?php echo esc_html( get_the_title( $post ) ); ?></h3>
 	  <?php if ( $when ) : ?><p class="when"><?php echo esc_html( $when ); ?></p><?php endif; ?>
+	  <?php
+	  /**
+	   * A time with no place reads as complete and sends someone to the wrong
+	   * building. Say so plainly and give them a number instead.
+	   */
+	  if ( ! $rec && ! $place ) : ?>
+	  <p class="when" style="color:var(--coral-dark);"><?php
+		  printf(
+			  /* translators: %s: phone link */
+			  esc_html__( 'Location to be confirmed, call %s', 'taum' ),
+			  '<a href="' . esc_attr( taum_tel() ) . '">' . esc_html( taum_opt( 'phone' ) ) . '</a>'
+		  );
+	  ?></p>
+	  <?php endif; ?>
 	  <?php echo wpautop( wp_kses_post( $post->post_content ) ); ?>
 	  <?php if ( $url ) : ?>
 	  <p class="actions"><a class="btn small" href="<?php echo esc_url( $url ); ?>"><?php echo esc_html( $lbl ? $lbl : __( 'Details', 'taum' ) ); ?></a></p>
