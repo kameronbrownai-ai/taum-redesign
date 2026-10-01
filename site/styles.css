@@ -69,8 +69,8 @@ header.site {
 @media (max-width: 480px) { .brand .word .small { display: none; } }
 .nav ul { display: flex; gap: 2px; list-style: none; margin-left: auto; flex-wrap: wrap; }
 .nav ul a {
-  color: var(--ink); text-decoration: none; font-weight: 800; font-size: .9rem;
-  padding: 8px 11px; border-radius: 999px; transition: background .15s, color .15s;
+  color: var(--ink); text-decoration: none; font-weight: 800; font-size: .85rem;
+  padding: 8px 9px; border-radius: 999px; transition: background .15s, color .15s;
   white-space: nowrap;
 }
 .nav ul a:hover { background: var(--ink); color: var(--cream); }
@@ -104,7 +104,7 @@ header.site {
 /* focus-within keeps the menu usable from the keyboard without script */
 .nav li:hover > .sub-menu,
 .nav li:focus-within > .sub-menu { display: flex; }
-.nav .sub-menu a { display: block; white-space: nowrap; border-radius: 9px; font-size: .88rem; padding: 8px 12px; }
+.nav .sub-menu a { display: block; white-space: nowrap; border-radius: 9px; font-size: .9rem; padding: 9px 13px; }
 
 /* Below the breakpoint the bar already wraps to its own row; a hover dropdown
    has no meaning on touch, and nine extra items would bury the page. Parents

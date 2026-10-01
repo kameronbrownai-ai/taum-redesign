@@ -78,9 +78,11 @@ taum_mi( $menu_id, 'Donate', 'donate', $pos++, $inv );
 $about = taum_mi( $menu_id, 'About', 'about', $pos++ );
 taum_mi( $menu_id, 'Our story & staff', 'about', $pos++, $about );
 taum_mi( $menu_id, 'Partners & supporters', '/about/#partners', $pos++, $about );
-// Gallery is about-us content, and moving it here keeps the bar to one row.
-taum_mi( $menu_id, 'Gallery', 'gallery', $pos++, $about );
-taum_mi( $menu_id, 'Event flyers', '/gallery/#flyers', $pos++, $about );
+
+// Gallery stays top level; the flyer archive hangs off it.
+$gal = taum_mi( $menu_id, 'Gallery', 'gallery', $pos++ );
+taum_mi( $menu_id, 'Photos', 'gallery', $pos++, $gal );
+taum_mi( $menu_id, 'Event flyers', '/gallery/#flyers', $pos++, $gal );
 
 taum_mi( $menu_id, 'FAQ', 'faq', $pos++ );
 taum_mi( $menu_id, 'Contact', 'contact', $pos++ );
