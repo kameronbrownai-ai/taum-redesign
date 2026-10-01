@@ -13,7 +13,7 @@ while ( have_posts() ) : the_post();
 	?>
 
 	<?php if ( $weekly ) : ?>
-	<section>
+	<section id="events">
 	 <div class="wrap">
 	  <h2><?php esc_html_e( 'Every week', 'taum' ); ?></h2>
 	  <p style="max-width:52ch;color:var(--indigo-soft);margin-top:10px;"><?php esc_html_e( 'No sign-up, no ID, no referral. Just come.', 'taum' ); ?></p>
@@ -40,7 +40,7 @@ while ( have_posts() ) : the_post();
 	 </div>
 	</section>
 
-	<section>
+	<section id="news">
 	 <div class="wrap">
 	  <h2><?php esc_html_e( 'From around the building', 'taum' ); ?></h2>
 	  <?php if ( $posts ) : foreach ( $posts as $p ) : ?>

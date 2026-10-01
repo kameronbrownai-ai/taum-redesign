@@ -69,10 +69,50 @@ header.site {
 @media (max-width: 480px) { .brand .word .small { display: none; } }
 .nav ul { display: flex; gap: 2px; list-style: none; margin-left: auto; flex-wrap: wrap; }
 .nav ul a {
-  color: var(--ink); text-decoration: none; font-weight: 800; font-size: .92rem;
-  padding: 8px 13px; border-radius: 999px; transition: background .15s, color .15s;
+  color: var(--ink); text-decoration: none; font-weight: 800; font-size: .9rem;
+  padding: 8px 11px; border-radius: 999px; transition: background .15s, color .15s;
+  white-space: nowrap;
 }
 .nav ul a:hover { background: var(--ink); color: var(--cream); }
+
+/* You are here. Indigo pill for the page itself, aqua for its parent, so a
+   visitor three levels into Programs can still see which branch they are in. */
+.nav .current-menu-item > a,
+.nav .current_page_item > a { background: var(--indigo); color: var(--cream); }
+.nav .current-menu-ancestor > a,
+.nav .current-menu-parent > a,
+.nav .current-page-ancestor > a,
+.nav .current_page_parent > a { background: var(--aqua); color: var(--ink); }
+.nav .current-menu-item > a:hover,
+.nav .current-menu-ancestor > a:hover { background: var(--ink); color: var(--cream); }
+
+/* Dropdowns */
+.nav li { position: relative; }
+.nav .menu-item-has-children > a::after {
+  content: ""; display: inline-block; vertical-align: middle;
+  margin-left: 7px; width: 0; height: 0;
+  border-left: 4px solid transparent; border-right: 4px solid transparent;
+  border-top: 5px solid currentColor; opacity: .7;
+}
+.nav .sub-menu {
+  position: absolute; top: calc(100% + 6px); left: 0; z-index: 60;
+  min-width: 232px; list-style: none; margin: 0; padding: 7px;
+  background: var(--cream); border: 2px solid var(--ink);
+  border-radius: 14px; box-shadow: 5px 5px 0 var(--ink);
+  display: none; flex-direction: column; gap: 1px;
+}
+/* focus-within keeps the menu usable from the keyboard without script */
+.nav li:hover > .sub-menu,
+.nav li:focus-within > .sub-menu { display: flex; }
+.nav .sub-menu a { display: block; white-space: nowrap; border-radius: 9px; font-size: .88rem; padding: 8px 12px; }
+
+/* Below the breakpoint the bar already wraps to its own row; a hover dropdown
+   has no meaning on touch, and nine extra items would bury the page. Parents
+   still link to a page that lists their children. */
+@media (max-width: 860px) {
+  .nav .sub-menu { display: none !important; }
+  .nav .menu-item-has-children > a::after { display: none; }
+}
 
 @media (max-width: 860px) {
   .nav { flex-wrap: wrap; row-gap: 10px; }
