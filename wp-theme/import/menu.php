@@ -35,6 +35,16 @@ function taum_mi( $menu_id, $label, $target, $pos, $parent = 0 ) {
 
 $pos = 1;
 
+// Home, with the homepage's own sections under it. The front page is long and
+// these are the places people are actually trying to reach.
+$home = taum_mi( $menu_id, 'Home', '/', $pos++ );
+taum_mi( $menu_id, 'Next up',            '/#next-up',  $pos++, $home );
+taum_mi( $menu_id, "What's growing",     '/#now',      $pos++, $home );
+taum_mi( $menu_id, 'Our 40th year',      '/#campaign', $pos++, $home );
+taum_mi( $menu_id, 'Impact',             '/#impact',   $pos++, $home );
+taum_mi( $menu_id, 'What we do',         '/#programs', $pos++, $home );
+taum_mi( $menu_id, 'Use the building',   '/#involved', $pos++, $home );
+
 // Flat items
 taum_mi( $menu_id, 'Food', 'food', $pos++ );
 taum_mi( $menu_id, 'Furniture', 'furniture', $pos++ );
@@ -68,8 +78,10 @@ taum_mi( $menu_id, 'Donate', 'donate', $pos++, $inv );
 $about = taum_mi( $menu_id, 'About', 'about', $pos++ );
 taum_mi( $menu_id, 'Our story & staff', 'about', $pos++, $about );
 taum_mi( $menu_id, 'Partners & supporters', '/about/#partners', $pos++, $about );
+// Gallery is about-us content, and moving it here keeps the bar to one row.
+taum_mi( $menu_id, 'Gallery', 'gallery', $pos++, $about );
+taum_mi( $menu_id, 'Event flyers', '/gallery/#flyers', $pos++, $about );
 
-taum_mi( $menu_id, 'Gallery', 'gallery', $pos++ );
 taum_mi( $menu_id, 'FAQ', 'faq', $pos++ );
 taum_mi( $menu_id, 'Contact', 'contact', $pos++ );
 

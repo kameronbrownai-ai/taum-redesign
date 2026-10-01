@@ -67,7 +67,7 @@ if ( $next ) :
 	$nlbl  = get_post_meta( $nid, 'taum_event_url_label', true );
 	$nwhen = trim( ( $ndate ? date_i18n( 'l, F j', strtotime( $ndate ) ) : '' ) . ( $ntime ? ' · ' . $ntime : '' ) );
 ?>
-<section class="next-up">
+<section class="next-up" id="next-up">
  <div class="wrap next-up-grid reveal<?php echo has_post_thumbnail( $nid ) ? '' : ' no-flyer'; ?>">
   <?php if ( has_post_thumbnail( $nid ) ) : ?>
   <a class="flyer" href="<?php echo esc_url( get_permalink( $nid ) ); ?>">
@@ -90,7 +90,7 @@ if ( $next ) :
 <?php endif; ?>
 
 <?php $now = taum_home_posts(); if ( $now ) : ?>
-<section>
+<section id="now">
  <div class="wrap">
   <p class="kicker reveal"><?php echo esc_html( taum_opt( 'now_kicker' ) ); ?></p>
   <h2 class="reveal"><?php echo esc_html( taum_opt( 'now_title' ) ); ?></h2>
@@ -108,7 +108,7 @@ if ( $next ) :
 <?php endif; ?>
 
 <?php if ( taum_opt( 'campaign_on' ) ) : ?>
-<section class="section-warm">
+<section class="section-warm" id="campaign">
  <div class="wrap flames">
   <div class="reveal">
    <p class="kicker"><?php echo esc_html( taum_opt( 'campaign_kicker' ) ); ?></p>
@@ -124,7 +124,7 @@ if ( $next ) :
 </section>
 <?php endif; ?>
 
-<section class="impact">
+<section class="impact" id="impact">
  <div class="wrap">
   <h2 class="reveal"><?php esc_html_e( 'Every gift stays in the neighborhood', 'taum' ); ?></h2>
   <div class="grid">

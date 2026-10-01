@@ -135,13 +135,16 @@ function taum_event_card( $post ) {
 }
 
 /**
- * The single soonest dated event still to come. Drives the homepage flyer
- * spotlight, so Abby publishes an event with a flyer and it promotes itself.
+ * The event for the homepage spotlight.
+ *
+ * The slot exists to show a flyer, so the soonest upcoming event that HAS one
+ * wins. Only if nothing upcoming has a flyer does it fall back to the soonest
+ * event of any kind, rather than leaving the slot empty.
  */
 function taum_next_event() {
-	$q = get_posts( array(
+	$upcoming = get_posts( array(
 		'post_type'      => 'taum_event',
-		'posts_per_page' => 1,
+		'posts_per_page' => 20,
 		'post_status'    => 'publish',
 		'meta_key'       => 'taum_event_date',
 		'orderby'        => 'meta_value',
@@ -155,7 +158,15 @@ function taum_next_event() {
 			),
 		),
 	) );
-	return $q ? $q[0] : null;
+	if ( ! $upcoming ) {
+		return null;
+	}
+	foreach ( $upcoming as $ev ) {
+		if ( has_post_thumbnail( $ev ) ) {
+			return $ev;
+		}
+	}
+	return $upcoming[0];
 }
 
 /**
