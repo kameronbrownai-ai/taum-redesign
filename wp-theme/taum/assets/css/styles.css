@@ -87,16 +87,14 @@ header.site {
 }
 .nav ul a:hover { background: var(--ink); color: var(--cream); }
 
-/* You are here. Indigo pill for the page itself, aqua for its parent, so a
-   visitor three levels into Programs can still see which branch they are in. */
+/* You are here. One colour, and only on the tab actually selected.
+   Parent items are deliberately NOT highlighted: a visitor on Food does not
+   need Programs lit up as well, and two shades of blue in the bar read as a
+   glitch rather than as hierarchy. */
 .nav .current-menu-item > a,
 .nav .current_page_item > a { background: var(--indigo); color: var(--cream); }
-.nav .current-menu-ancestor > a,
-.nav .current-menu-parent > a,
-.nav .current-page-ancestor > a,
-.nav .current_page_parent > a { background: var(--aqua); color: var(--ink); }
 .nav .current-menu-item > a:hover,
-.nav .current-menu-ancestor > a:hover { background: var(--ink); color: var(--cream); }
+.nav .current_page_item > a:hover { background: var(--ink); color: var(--cream); }
 
 /* Dropdowns */
 .nav li { position: relative; }
