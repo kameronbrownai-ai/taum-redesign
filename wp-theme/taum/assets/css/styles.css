@@ -38,6 +38,18 @@ a { color: var(--coral-dark); }
 img { max-width: 100%; display: block; }
 .wrap { max-width: 1140px; margin: 0 auto; padding: 0 28px; }
 
+/* Keyboard focus. The browser default is a thin ring in its own colour, which
+   on this palette can sit on cream, indigo or coral and is easy to lose. One
+   branded ring, used everywhere, stays visible on all of them. */
+:focus-visible {
+  outline: 3px solid var(--teal-deep);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.hero-inst :focus-visible, .quickbar :focus-visible,
+.banner :focus-visible, .utility-bar :focus-visible,
+footer.site :focus-visible { outline-color: var(--aqua); }
+
 .skip { position: absolute; left: -9999px; }
 .skip:focus { left: 12px; top: 12px; background: var(--white); padding: 8px 16px; z-index: 99; }
 ::selection { background: var(--aqua); color: var(--ink); }

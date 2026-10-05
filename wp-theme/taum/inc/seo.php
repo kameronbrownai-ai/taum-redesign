@@ -20,6 +20,14 @@ add_action( 'wp_head', function () {
 		$desc = has_excerpt() ? get_the_excerpt() : wp_trim_words( wp_strip_all_tags( get_post_field( 'post_content', get_the_ID() ) ), 30, '…' );
 	}
 	$desc = trim( wp_strip_all_tags( $desc ) );
+	// Page intros run long because they are written to be read on the page.
+	// Search results cut around 155 characters, so trim on a word boundary
+	// rather than letting Google chop mid-sentence.
+	if ( mb_strlen( $desc ) > 155 ) {
+		$cut  = mb_substr( $desc, 0, 155 );
+		$sp   = mb_strrpos( $cut, ' ' );
+		$desc = rtrim( $sp ? mb_substr( $cut, 0, $sp ) : $cut, " ,.;:" ) . '…';
+	}
 	if ( $desc ) {
 		echo '<meta name="description" content="' . esc_attr( $desc ) . '">' . "\n";
 		echo '<meta property="og:description" content="' . esc_attr( $desc ) . '">' . "\n";
