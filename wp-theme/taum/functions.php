@@ -11,16 +11,17 @@
  *   shortcodes.php     [taum key] so page copy can reference site-wide facts
  *   seo.php            meta description, schema.org, llms.txt, robots
  *   help.php           "How to update the site" page and dashboard box for editors
+ *   security.php       XML-RPC off, no username harvesting, security headers
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'TAUM_VERSION', '1.4.1' );
+define( 'TAUM_VERSION', '1.5.1' );
 define( 'TAUM_DIR', get_template_directory() );
 define( 'TAUM_URI', get_template_directory_uri() );
 
-foreach ( array( 'setup', 'cpt', 'meta-boxes', 'customizer', 'template-tags', 'shortcodes', 'seo', 'help' ) as $taum_inc ) {
+foreach ( array( 'setup', 'cpt', 'meta-boxes', 'customizer', 'template-tags', 'shortcodes', 'seo', 'help', 'security' ) as $taum_inc ) {
 	require_once TAUM_DIR . '/inc/' . $taum_inc . '.php';
 }
