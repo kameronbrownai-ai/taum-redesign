@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'TAUM_VERSION', '1.5.1' );
+define( 'TAUM_VERSION', '1.6.0' );
 define( 'TAUM_DIR', get_template_directory() );
 define( 'TAUM_URI', get_template_directory_uri() );
 

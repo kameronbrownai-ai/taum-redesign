@@ -12,3 +12,4 @@ wp-theme/import/manifest.json
 # Flyer images are pushed to the server by hand, not tracked here
 wp-theme/import/flyers/
 wp-theme/import/photos/
+wp-theme/import/real-photos/
