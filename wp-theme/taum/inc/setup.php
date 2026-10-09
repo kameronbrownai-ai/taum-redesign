@@ -72,6 +72,60 @@ add_action( 'init', function () {
 	remove_action( 'wp_head', 'wp_shortlink_wp_head' );
 } );
 
+/**
+ * Exactly one highlighted tab in the bar, never two.
+ *
+ * WordPress marks every ancestor of the current page, so Food lit both "Food"
+ * and "Programs" (Food appears in the Programs dropdown as well), and the
+ * Community Center lit Programs and Get involved, since it sits under both.
+ *
+ * The rule: if the page has a tab of its own, that tab wins and no ancestor is
+ * marked. Otherwise the first ancestor in menu order keeps the highlight, so a
+ * sub-page still shows which section it belongs to.
+ */
+add_filter( 'wp_nav_menu_objects', function ( $items, $args ) {
+	if ( empty( $args->theme_location ) || 'primary' !== $args->theme_location ) {
+		return $items;
+	}
+
+	$ancestor_classes = array(
+		'current-menu-ancestor',
+		'current-menu-parent',
+		'current-page-ancestor',
+		'current_page_parent',
+		'current_page_ancestor',
+	);
+
+	$top_level   = array();
+	$has_own_tab = false;
+	foreach ( $items as $item ) {
+		if ( (int) $item->menu_item_parent !== 0 ) {
+			continue;
+		}
+		$top_level[] = $item;
+		if ( array_intersect( array( 'current-menu-item', 'current_page_item' ), (array) $item->classes ) ) {
+			$has_own_tab = true;
+		}
+	}
+
+	$kept = false;
+	foreach ( $top_level as $item ) {
+		$is_current = (bool) array_intersect( array( 'current-menu-item', 'current_page_item' ), (array) $item->classes );
+		$is_ancestor = (bool) array_intersect( $ancestor_classes, (array) $item->classes );
+		if ( ! $is_ancestor || $is_current ) {
+			continue;
+		}
+		// Strip when the page has its own tab, or when an earlier ancestor already took it.
+		if ( $has_own_tab || $kept ) {
+			$item->classes = array_values( array_diff( (array) $item->classes, $ancestor_classes ) );
+		} else {
+			$kept = true;
+		}
+	}
+
+	return $items;
+}, 10, 2 );
+
 add_filter( 'body_class', function ( $classes ) {
 	if ( is_page() ) {
 		$classes[] = 'page-' . get_post_field( 'post_name', get_queried_object_id() );
