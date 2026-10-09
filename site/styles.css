@@ -87,14 +87,25 @@ header.site {
 }
 .nav ul a:hover { background: var(--ink); color: var(--cream); }
 
-/* You are here. One colour, and only on the tab actually selected.
-   Parent items are deliberately NOT highlighted: a visitor on Food does not
-   need Programs lit up as well, and two shades of blue in the bar read as a
-   glitch rather than as hierarchy. */
+/* You are here. One colour throughout, never two.
+   The selected tab is highlighted, and so is the tab it lives under, so a
+   visitor on Tech for Teens can see they are inside Programs. Both use the
+   same indigo: the earlier version used a second, lighter blue for the parent
+   and that read as a glitch rather than as hierarchy.
+   Events carries both classes on the News page, because its dropdown points at
+   anchors on that same page, so both rules must resolve to the same colour. */
 .nav .current-menu-item > a,
-.nav .current_page_item > a { background: var(--indigo); color: var(--cream); }
+.nav .current_page_item > a,
+.nav .current-menu-ancestor > a,
+.nav .current-menu-parent > a,
+.nav .current-page-ancestor > a,
+.nav .current_page_parent > a { background: var(--indigo); color: var(--cream); }
 .nav .current-menu-item > a:hover,
-.nav .current_page_item > a:hover { background: var(--ink); color: var(--cream); }
+.nav .current_page_item > a:hover,
+.nav .current-menu-ancestor > a:hover,
+.nav .current-menu-parent > a:hover,
+.nav .current-page-ancestor > a:hover,
+.nav .current_page_parent > a:hover { background: var(--ink); color: var(--cream); }
 
 /* Dropdowns */
 .nav li { position: relative; }

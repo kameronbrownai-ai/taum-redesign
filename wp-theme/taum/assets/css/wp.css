@@ -17,60 +17,63 @@ body.admin-bar .site { top: 32px; }
 .page-body img { border-radius: var(--radius); }
 
 /* Native gallery block, styled like the original gallery-grid */
-/* Gallery. WordPress ships the block as a flex grid and, with "is-cropped",
-   forces every tile to the same cropped aspect, which makes them small and
-   uniform. The original design was a masonry column layout where each photo
-   kept its own shape and filled the column width, so that is restored here and
-   WordPress's flex and crop rules are overridden rather than worked around. */
+/* Gallery. Identical to the original static layout: masonry columns, each
+   photo at its own natural proportions, nothing cropped and nothing stretched.
+   WordPress ships the block as a flex grid and "is-cropped" forces uniform
+   tiles, so both are overridden rather than worked around. The one rule that
+   matters is that the image gets width:100% and height:auto and no object-fit,
+   which is what keeps its shape. */
 .wp-block-gallery.has-nested-images,
 .wp-block-gallery.has-nested-images.is-layout-flex,
 .wp-block-gallery.has-nested-images.columns-2,
 .wp-block-gallery.has-nested-images.columns-3,
 .wp-block-gallery.has-nested-images.columns-4 {
   display: block !important;
-  columns: 3 300px;
-  column-gap: 18px;
+  columns: 3 260px;
+  column-gap: 16px;
   margin-top: 32px;
-  gap: 0;
+  gap: 0 !important;
 }
 .wp-block-gallery.has-nested-images figure.wp-block-image,
 .wp-block-gallery.has-nested-images.is-cropped figure.wp-block-image {
   display: block !important;
   width: 100% !important;
+  max-width: none !important;
   flex: none !important;
-  max-width: none;
+  align-self: auto !important;
   break-inside: avoid;
-  margin: 0 0 18px;
+  margin: 0 0 16px !important;
   border-radius: var(--radius);
   overflow: hidden;
   border: 2px solid var(--ink);
-  box-shadow: 5px 5px 0 var(--ink);
+  box-shadow: 4px 4px 0 var(--ink);
   position: relative;
   transition: transform .18s, box-shadow .18s;
 }
 .wp-block-gallery.has-nested-images figure.wp-block-image:hover {
-  transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--ink);
+  transform: translate(-2px, -2px); box-shadow: 7px 7px 0 var(--ink);
 }
-/* Natural height, no crop: the photo decides its own shape again. */
+/* width + height:auto only. Do NOT override aspect-ratio here: WordPress
+   derives it from the img width/height attributes, and clearing it lets the
+   raw height attribute through, so an unloaded portrait rendered 361x1024
+   instead of 361x481. That was the stretching. */
 .wp-block-gallery.has-nested-images figure.wp-block-image img,
 .wp-block-gallery.has-nested-images.is-cropped figure.wp-block-image img {
   width: 100% !important;
   height: auto !important;
-  aspect-ratio: auto !important;
-  object-fit: fill !important;
   display: block;
   border-radius: 0;
 }
 .wp-block-gallery.has-nested-images figure.wp-block-image figcaption {
   position: absolute; left: 0; right: 0; bottom: 0; margin: 0;
-  padding: 26px 16px 12px; text-align: left; max-height: none; overflow: visible;
+  padding: 20px 14px 10px; text-align: left;
+  max-height: none !important; overflow: visible;
   background: linear-gradient(rgba(32,38,76,0), rgba(32,38,76,.95));
-  color: var(--cream); font-size: .86rem; font-weight: 700;
+  color: var(--cream); font-size: .82rem; font-weight: 700;
   opacity: 0; transition: opacity .2s;
 }
 .wp-block-gallery.has-nested-images figure.wp-block-image:hover figcaption { opacity: 1; }
-@media (max-width: 900px) { .wp-block-gallery.has-nested-images { columns: 2 260px; } }
-@media (max-width: 560px) { .wp-block-gallery.has-nested-images { columns: 1; } }
+@media (max-width: 560px) { .wp-block-gallery.has-nested-images { columns: 2 150px; } }
 
 /* Single image block with caption */
 .wp-block-image figcaption { font-size: .85rem; color: var(--indigo-soft); margin-top: 8px; }
