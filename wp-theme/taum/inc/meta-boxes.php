@@ -13,6 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 add_action( 'add_meta_boxes', function () {
 	add_meta_box( 'taum_hero', __( 'Page hero', 'taum' ), 'taum_mb_hero', 'page', 'side', 'high' );
+	add_meta_box( 'taum_contact', __( 'Who to ask', 'taum' ), 'taum_mb_contact', 'page', 'side', 'default' );
 	add_meta_box( 'taum_event', __( 'When and where', 'taum' ), 'taum_mb_event', 'taum_event', 'normal', 'high' );
 	add_meta_box( 'taum_partner', __( 'Partner details', 'taum' ), 'taum_mb_partner', 'taum_partner', 'normal', 'high' );
 } );
@@ -48,6 +49,20 @@ function taum_mb_hero( $post ) {
 	) );
 }
 
+/**
+ * The person who runs this program. Filled in here rather than typed into the
+ * page, so the Programs page can list it and an extension that changes is
+ * changed once.
+ */
+function taum_mb_contact( $post ) {
+	wp_nonce_field( 'taum_mb', 'taum_mb_nonce' );
+	$m = function ( $k ) use ( $post ) { return get_post_meta( $post->ID, $k, true ); };
+	taum_mb_field( 'taum_contact_name', __( 'Name and title', 'taum' ), $m( 'taum_contact_name' ), 'text', __( 'e.g. Barbara Healey, Damien Center Coordinator', 'taum' ) );
+	taum_mb_field( 'taum_contact_ext', __( 'Extension', 'taum' ), $m( 'taum_contact_ext' ), 'text', __( 'Just the digits, e.g. 206. The main office number is added for you.', 'taum' ) );
+	taum_mb_field( 'taum_contact_phone', __( 'Different phone number', 'taum' ), $m( 'taum_contact_phone' ), 'text', __( 'Only if this program is not reached on the office line.', 'taum' ) );
+	taum_mb_field( 'taum_contact_email', __( 'Email', 'taum' ), $m( 'taum_contact_email' ), 'email', __( 'Leave every field blank and the Programs page simply omits the contact.', 'taum' ) );
+}
+
 function taum_mb_event( $post ) {
 	wp_nonce_field( 'taum_mb', 'taum_mb_nonce' );
 	$m = function ( $k ) use ( $post ) { return get_post_meta( $post->ID, $k, true ); };
@@ -80,7 +95,7 @@ add_action( 'save_post', function ( $post_id ) {
 	if ( ! current_user_can( 'edit_post', $post_id ) ) {
 		return;
 	}
-	$text = array( 'taum_kicker', 'taum_event_day_label', 'taum_event_date', 'taum_event_time', 'taum_event_place', 'taum_event_url_label' );
+	$text = array( 'taum_kicker', 'taum_event_day_label', 'taum_event_date', 'taum_event_time', 'taum_event_place', 'taum_event_url_label', 'taum_contact_name', 'taum_contact_ext', 'taum_contact_phone' );
 	foreach ( $text as $k ) {
 		if ( isset( $_POST[ $k ] ) ) {
 			update_post_meta( $post_id, $k, sanitize_text_field( wp_unslash( $_POST[ $k ] ) ) );
@@ -90,6 +105,9 @@ add_action( 'save_post', function ( $post_id ) {
 		if ( isset( $_POST[ $k ] ) ) {
 			update_post_meta( $post_id, $k, esc_url_raw( wp_unslash( $_POST[ $k ] ) ) );
 		}
+	}
+	if ( isset( $_POST['taum_contact_email'] ) ) {
+		update_post_meta( $post_id, 'taum_contact_email', sanitize_email( wp_unslash( $_POST['taum_contact_email'] ) ) );
 	}
 	if ( isset( $_POST['taum_hero_style'] ) ) {
 		update_post_meta( $post_id, 'taum_hero_style', sanitize_key( $_POST['taum_hero_style'] ) );

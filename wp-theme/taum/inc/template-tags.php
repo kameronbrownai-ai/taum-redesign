@@ -249,3 +249,121 @@ function taum_nav_fallback() {
 function taum_em( $text ) {
 	return preg_replace( '/\*([^*]+)\*/', '<em>$1</em>', esc_html( $text ) );
 }
+
+/**
+ * The programs, in the order we present them, with the short name and icon
+ * used wherever they are listed.
+ *
+ * One list, used by both the homepage tiles and the Programs page. They used
+ * to carry their own copies, and when the MLK page moved from
+ * /mlk-scholarship/ to /mlk/ the homepage tile vanished without a word,
+ * because a missing page is skipped silently. Shared list, one place to fix.
+ *
+ * A program only appears if its page exists and is published.
+ */
+function taum_programs() {
+	$all = array(
+		'food' => array(
+			'label' => __( 'Food', 'taum' ),
+			'cta'   => __( 'Get food', 'taum' ),
+			'tone'  => 't-indigo',
+			'accent'=> 'var(--teal-deep)',
+			'icon'  => '<path d="M4 12h16a8 8 0 0 1-16 0z"/><path d="M9 8c0-2 2-2 2-4"/><path d="M14 8c0-2 2-2 2-4"/>',
+		),
+		'furniture' => array(
+			'label' => __( 'Furniture', 'taum' ),
+			'cta'   => __( 'Get or give furniture', 'taum' ),
+			'tone'  => 't-coral',
+			'accent'=> 'var(--coral-dark)',
+			'icon'  => '<path d="M3 19v-9"/><path d="M3 14h18v5"/><path d="M21 14v-3a2 2 0 0 0-2-2h-9v5"/><circle cx="6.5" cy="11.5" r="1.5"/>',
+		),
+		'tech-for-teens' => array(
+			'label' => __( 'Tech for Teens', 'taum' ),
+			'cta'   => __( 'Learn more', 'taum' ),
+			'tone'  => 't-teal',
+			'accent'=> 'var(--magenta-deep)',
+			'icon'  => '<rect x="5" y="5" width="14" height="10" rx="1.5"/><path d="M3 19h18"/>',
+		),
+		'damien-center' => array(
+			'label' => __( 'The Damien Center', 'taum' ),
+			'cta'   => __( 'Find support', 'taum' ),
+			'tone'  => 't-magenta',
+			'accent'=> 'var(--olive-deep)',
+			'icon'  => '<path d="M12 20s-7-4.5-7-9.5A4 4 0 0 1 12 7.5 4 4 0 0 1 19 10.5C19 15.5 12 20 12 20z"/>',
+		),
+		'community-center' => array(
+			'label' => __( 'Community Center', 'taum' ),
+			'cta'   => __( 'Use the space', 'taum' ),
+			'tone'  => 't-slate',
+			'accent'=> 'var(--teal-deep)',
+			'icon'  => '<path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/>',
+		),
+		'chaplaincy' => array(
+			'label' => __( 'Campus Chaplaincy', 'taum' ),
+			'cta'   => __( 'Meet the chaplain', 'taum' ),
+			'tone'  => 't-olive',
+			'accent'=> 'var(--coral-dark)',
+			'icon'  => '<path d="M3 12c2.5-3 5-3 7.5 0"/><path d="M13.5 12c2.5-3 5-3 7.5 0"/><path d="M8 17c2-2.5 6-2.5 8 0"/>',
+		),
+		'mlk' => array(
+			'label' => __( 'MLK Programs', 'taum' ),
+			'cta'   => __( 'See the programs', 'taum' ),
+			'tone'  => 't-teal',
+			'accent'=> 'var(--magenta-deep)',
+			'icon'  => '<path d="M12 5 2 10l10 5 10-5-10-5z"/><path d="M6 12.5V17c4 2 8 2 12 0v-4.5"/><path d="M22 10v5"/>',
+		),
+	);
+
+	$out = array();
+	foreach ( $all as $slug => $p ) {
+		$page = get_page_by_path( $slug );
+		if ( ! $page || 'publish' !== $page->post_status ) {
+			continue;
+		}
+		$p['page'] = $page;
+		$p['url']  = get_permalink( $page );
+		$out[ $slug ] = $p;
+	}
+	return $out;
+}
+
+/**
+ * "Who to ask" for a program page, assembled from its own meta so a changed
+ * extension is changed in one place rather than on every page that prints it.
+ * Returns an empty array when nobody has been named yet, so callers can leave
+ * the block out rather than print an empty heading.
+ */
+function taum_program_contact( $post_id ) {
+	$name  = get_post_meta( $post_id, 'taum_contact_name', true );
+	$ext   = get_post_meta( $post_id, 'taum_contact_ext', true );
+	$phone = get_post_meta( $post_id, 'taum_contact_phone', true );
+	$email = get_post_meta( $post_id, 'taum_contact_email', true );
+
+	if ( ! $name && ! $ext && ! $phone && ! $email ) {
+		return array();
+	}
+
+	$lines = array();
+	if ( $phone ) {
+		$lines[] = '<a href="tel:+1' . preg_replace( '/\D/', '', $phone ) . '">' . esc_html( $phone ) . '</a>';
+	} elseif ( $ext ) {
+		$lines[] = '<a href="' . esc_attr( taum_tel( $ext ) ) . '">' . esc_html( taum_opt( 'phone' ) . ' ext. ' . $ext ) . '</a>';
+	}
+	if ( $email ) {
+		$lines[] = '<a href="mailto:' . esc_attr( $email ) . '">' . esc_html( $email ) . '</a>';
+	}
+
+	return array(
+		'name'  => $name,
+		'lines' => $lines,
+	);
+}
+
+/**
+ * Small numbers as words, so a heading reads "Seven ways we show up" rather
+ * than "7 ways". Falls back to the digits past ten, which we will not reach.
+ */
+function taum_number_word( $n ) {
+	$words = array( 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten' );
+	return isset( $words[ $n ] ) ? $words[ $n ] : (string) $n;
+}

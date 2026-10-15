@@ -6,15 +6,11 @@
 get_header();
 
 $badge = explode( '|', taum_opt( 'campaign_badge_text' ) );
-$tiles = array(
-	// slug => [color class, svg path markup]
-	'food'             => array( 't-indigo',  '<path d="M4 12h16a8 8 0 0 1-16 0z"/><path d="M9 8c0-2 2-2 2-4"/><path d="M14 8c0-2 2-2 2-4"/>', 'Get food →', 'Food' ),
-	'furniture'        => array( 't-coral',   '<path d="M3 19v-9"/><path d="M3 14h18v5"/><path d="M21 14v-3a2 2 0 0 0-2-2h-9v5"/><circle cx="6.5" cy="11.5" r="1.5"/>', 'Get or give furniture →', 'Furniture' ),
-	'tech-for-teens'   => array( 't-teal',    '<rect x="5" y="5" width="14" height="10" rx="1.5"/><path d="M3 19h18"/>', 'Learn more →', 'Tech for Teens' ),
-	'community-center' => array( 't-magenta', '<path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/>', 'Use the space →', 'Community Center' ),
-	'chaplaincy'       => array( 't-olive',   '<path d="M3 12c2.5-3 5-3 7.5 0"/><path d="M13.5 12c2.5-3 5-3 7.5 0"/><path d="M8 17c2-2.5 6-2.5 8 0"/>', 'Meet the chaplain →', 'Campus chaplaincy' ),
-	'mlk-scholarship'  => array( 't-slate',   '<path d="M12 5 2 10l10 5 10-5-10-5z"/><path d="M6 12.5V17c4 2 8 2 12 0v-4.5"/><path d="M22 10v5"/>', 'Apply →', 'MLK Scholarship' ),
-);
+
+// The tiles come from taum_programs(), the same list the Programs page uses.
+// They used to be a second copy here, and when the MLK page moved to /mlk/
+// this tile silently disappeared while the heading still claimed six.
+$tiles = taum_programs();
 ?>
 
 <section class="hero-inst">
@@ -138,14 +134,17 @@ if ( $next ) :
 <section id="programs">
  <div class="wrap">
   <p class="kicker reveal"><?php esc_html_e( 'What we do', 'taum' ); ?></p>
-  <h2 class="reveal"><?php esc_html_e( 'Six ways we show up', 'taum' ); ?></h2>
+  <h2 class="reveal"><?php
+	  /* translators: %s: how many programs are published. */
+	  printf( esc_html__( '%s ways we show up', 'taum' ), esc_html( ucfirst( taum_number_word( count( $tiles ) ) ) ) );
+	  ?></h2>
   <div class="tile-grid reveal">
-   <?php foreach ( $tiles as $slug => $t ) : $pg = get_page_by_path( $slug ); if ( ! $pg ) { continue; } ?>
-   <a class="tile <?php echo esc_attr( $t[0] ); ?>" href="<?php echo esc_url( get_permalink( $pg ) ); ?>">
-    <svg class="ico2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><?php echo $t[1]; ?></svg>
-    <h3><?php echo esc_html( $t[3] ); ?></h3>
-    <p><?php echo esc_html( has_excerpt( $pg ) ? wp_trim_words( get_the_excerpt( $pg ), 14, '…' ) : '' ); ?></p>
-    <span class="more"><?php echo esc_html( $t[2] ); ?></span>
+   <?php foreach ( $tiles as $slug => $t ) : ?>
+   <a class="tile <?php echo esc_attr( $t['tone'] ); ?>" href="<?php echo esc_url( $t['url'] ); ?>">
+    <svg class="ico2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><?php echo $t['icon']; // phpcs:ignore WordPress.Security.EscapeOutput ?></svg>
+    <h3><?php echo esc_html( $t['label'] ); ?></h3>
+    <p><?php echo esc_html( has_excerpt( $t['page'] ) ? wp_trim_words( get_the_excerpt( $t['page'] ), 14, '…' ) : '' ); ?></p>
+    <span class="more"><?php echo esc_html( $t['cta'] ); ?> &rarr;</span>
    </a>
    <?php endforeach; ?>
   </div>

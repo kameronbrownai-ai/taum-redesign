@@ -524,3 +524,67 @@ details .a a { font-weight: 700; }
   letter-spacing: .14em; text-transform: uppercase; color: var(--indigo-soft);
   padding-bottom: 8px; border-bottom: 2px solid rgba(32,38,76,.14);
 }
+
+/* ── Programs page cards ───────────────────────────────────────── */
+/* Photo-led cards built from the program pages themselves. Two across on a
+   desktop, each card laid out sideways so the contact block has room to sit
+   under the description without squeezing it into a column. */
+.pcards { display: grid; grid-template-columns: 1fr; gap: 26px; margin-top: 36px; }
+@media (min-width: 1000px) { .pcards { grid-template-columns: 1fr 1fr; } }
+
+.pcard {
+  display: grid; grid-template-columns: 210px 1fr;
+  background: var(--white); border: 2px solid var(--ink);
+  border-radius: var(--radius); box-shadow: 5px 5px 0 var(--ink);
+  overflow: hidden; transition: transform .18s, box-shadow .18s;
+}
+.pcard:hover { transform: translate(-3px, -3px); box-shadow: 8px 8px 0 var(--ink); }
+.pcard:focus-within { box-shadow: 8px 8px 0 var(--ink); }
+
+.pcard-media { position: relative; display: block; background: var(--pc-accent, var(--indigo)); }
+.pcard-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* The badge marks the program at a glance and keeps the card readable if a
+   featured image is ever missing, since the panel behind it is the tone. */
+.pcard-ico {
+  position: absolute; left: 12px; bottom: 12px;
+  width: 42px; height: 42px; display: grid; place-items: center;
+  background: var(--pc-accent, var(--indigo)); color: var(--cream);
+  border: 2px solid var(--ink); border-radius: 999px;
+}
+.pcard-ico svg { width: 22px; height: 22px; }
+
+.pcard-body { padding: 22px 24px 20px; display: flex; flex-direction: column; }
+.pcard-body h3 { font-size: 1.3rem; margin: 0; }
+.pcard-body h3 a { color: var(--ink); text-decoration: none; }
+.pcard-body h3 a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.pcard-line {
+  font-family: var(--serif); font-size: 1.02rem; font-weight: 600;
+  color: var(--pc-accent, var(--indigo)); margin-top: 4px; line-height: 1.3;
+}
+.pcard-desc { font-size: .93rem; color: var(--indigo-soft); margin-top: 10px; }
+
+.pcard-who {
+  margin-top: 14px; padding: 12px 14px;
+  background: var(--cream); border: 2px solid var(--ink); border-radius: 12px;
+  font-size: .88rem;
+}
+.pcard-who .lbl {
+  font-size: .7rem; font-weight: 900; letter-spacing: .09em;
+  text-transform: uppercase; color: var(--indigo-soft); margin-bottom: 5px;
+}
+.pcard-who .nm { font-weight: 800; color: var(--ink); }
+.pcard-who a { color: var(--ink); font-weight: 700; }
+
+.pcard-more {
+  margin-top: auto; padding-top: 16px;
+  font-weight: 900; font-size: .92rem; color: var(--ink);
+  text-decoration: none; align-self: start;
+}
+.pcard-more:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+/* Below this the sideways layout starves the photo, so stack it. */
+@media (max-width: 620px) {
+  .pcard { grid-template-columns: 1fr; }
+  .pcard-media { height: 190px; }
+  .pcard-body { padding: 18px 18px 16px; }
+}
