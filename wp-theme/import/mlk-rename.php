@@ -24,7 +24,7 @@ $content = $pg->post_content;
 // The scholarship keeps everything it had, under its own heading.
 if ( false === strpos( $content, 'id="scholarship"' ) ) {
 	$intro = '<div class="prose">'
-		. '<p>Troy Area United Ministries has carried Dr. King\'s work in Rensselaer County for decades: the scholarship below, and the observances, conversations and community work the MLK Committee organises through the year.</p>'
+		. '<p>Troy Area United Ministries has carried Dr. King\'s work in Rensselaer County for decades: the scholarship below, and the observances, conversations and community work the MLK Committee organizes through the year.</p>'
 		. '</div>'
 		. '<div class="callout" style="margin-top:30px;">'
 		. '<h3>More than the scholarship</h3>'
@@ -38,7 +38,7 @@ $r = wp_update_post( wp_slash( array(
 	'ID'           => $pg->ID,
 	'post_title'   => "Carrying Dr. King's work in Rensselaer County.",
 	'post_name'    => 'mlk',
-	'post_excerpt' => "Troy Area United Ministries has honoured Dr. King's vision in this county since 1997, through the Ronald J. Dukes Memorial Scholarship and the work of the MLK Committee. The scholarship supports students ready to confront racism, poverty and injustice in their own neighbourhoods.",
+	'post_excerpt' => "Troy Area United Ministries has honored Dr. King's vision in this county since 1997, through the Ronald J. Dukes Memorial Scholarship and the work of the MLK Committee. The scholarship supports students ready to confront racism, poverty and injustice in their own neighborhoods.",
 	'post_content' => $content,
 ) ), true );
 if ( is_wp_error( $r ) ) { WP_CLI::error( $r->get_error_message() ); }
