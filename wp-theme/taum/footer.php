@@ -12,8 +12,9 @@
   ?>
   <div class="cols">
    <div>
-    <h3>TAUM</h3>
-    <p style="font-size:.95rem;"><?php bloginfo( 'name' ); ?><br><?php echo esc_html( taum_opt( 'address1' ) ); ?><br><?php echo esc_html( taum_opt( 'address2' ) ); ?></p>
+    <?php // The reversed logo, because the navy ink of the main one disappears into this background. ?>
+    <img class="footer-logo" src="<?php echo esc_url( TAUM_URI . '/assets/images/taum-logo-light.png' ); ?>" alt="<?php bloginfo( 'name' ); ?>" width="414" height="238" loading="lazy">
+    <p style="font-size:.95rem;"><?php echo esc_html( taum_opt( 'address1' ) ); ?><br><?php echo esc_html( taum_opt( 'address2' ) ); ?></p>
     <p style="font-size:.95rem;margin-top:10px;"><a href="<?php echo esc_attr( taum_tel() ); ?>"><?php echo esc_html( taum_opt( 'phone' ) ); ?></a><br><a href="mailto:<?php echo esc_attr( taum_opt( 'email_office' ) ); ?>"><?php echo esc_html( taum_opt( 'email_office' ) ); ?></a></p>
     <p style="font-size:.95rem;margin-top:10px;"><?php echo esc_html( taum_opt( 'hours' ) ); ?></p>
    </div>

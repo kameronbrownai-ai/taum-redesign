@@ -68,6 +68,15 @@ header.site {
 }
 .nav { display: flex; align-items: center; gap: 22px; padding: 13px 0; }
 .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+/* The logo carries the name and the tagline, so the header no longer sets
+   them as text beside it. Sized by height: it is the one dimension the
+   header cares about, and the width follows the artwork. */
+.brand-logo { height: 58px; width: auto; display: block; }
+@media (max-width: 900px) { .brand-logo { height: 50px; } }
+@media (max-width: 480px) { .brand-logo { height: 42px; } }
+
+.footer-logo { height: 62px; width: auto; display: block; margin-bottom: 14px; }
+
 .brand .seal-sm { width: 42px; height: 42px; flex-shrink: 0; }
 .brand .word { display: flex; flex-direction: column; line-height: 1.08; }
 .brand .word .big {

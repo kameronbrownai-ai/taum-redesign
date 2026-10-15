@@ -19,9 +19,16 @@
 
 <header class="site">
  <div class="wrap nav">
-  <a class="brand" href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="<?php esc_attr_e( 'TAUM home', 'taum' ); ?>">
-   <?php echo taum_seal_svg(); ?>
-   <span class="word"><span class="big">TAUM</span><span class="small"><?php bloginfo( 'name' ); ?></span></span>
+  <?php
+  /**
+   * The logo is the client's own artwork, kept in the theme rather than the
+   * media library because the transparent and reversed versions are a matched
+   * pair cut from one opaque file, and uploading a replacement would only
+   * restore the white box they were made to remove.
+   */
+  ?>
+  <a class="brand" href="<?php echo esc_url( home_url( '/' ) ); ?>">
+   <img class="brand-logo" src="<?php echo esc_url( TAUM_URI . '/assets/images/taum-logo.png' ); ?>" alt="<?php bloginfo( 'name' ); ?>" width="414" height="238">
   </a>
   <nav aria-label="<?php esc_attr_e( 'Main', 'taum' ); ?>">
    <?php
