@@ -13,3 +13,6 @@ wp-theme/import/manifest.json
 wp-theme/import/flyers/
 wp-theme/import/photos/
 wp-theme/import/real-photos/
+
+# Client correspondence drafts, not part of the build
+email-to-abby.md
