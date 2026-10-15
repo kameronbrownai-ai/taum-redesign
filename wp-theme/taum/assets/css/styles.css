@@ -283,7 +283,10 @@ section { padding: 84px 0; position: relative; }
 }
 .newsletter input:focus { outline: 3px solid var(--aqua); }
 
-footer.site { background: var(--indigo); color: var(--cream); padding: 60px 0 32px; }
+/* The bottom padding clears the floating "How can we help?" button, which is
+   fixed 12px off the bottom and used to sit on top of the copyright line once
+   the footer started appearing on every page. */
+footer.site { background: var(--indigo); color: var(--cream); padding: 60px 0 32px; padding-bottom: calc(32px + 70px); }
 footer .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px; }
 footer h3 { color: var(--aqua); font-size: 1.02rem; margin-bottom: 14px; }
 footer a { color: var(--cream); text-decoration: none; }
