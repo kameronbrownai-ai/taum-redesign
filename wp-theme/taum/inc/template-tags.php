@@ -17,17 +17,6 @@ function taum_tel( $ext = '' ) {
 }
 
 /**
- * The bird seal used in the header. Inline SVG so it needs no request.
- */
-function taum_seal_svg() {
-	return '<svg class="seal-sm" viewBox="0 0 48 48" aria-hidden="true">'
-		. '<circle cx="24" cy="24" r="21.5" fill="none" stroke="#20264C" stroke-width="2.5"/>'
-		. '<path d="M9 27c5-9 14-13 23-11-4 1-6 3-8 5 5-2 10-1 13 3-4-1-9 0-11 3 3 0 6 2 7 4-5-3-12-3-16 0-3 2-5 2-8-4z" fill="#20264C"/>'
-		. '<path d="M27 17c1.5-1.5 4-2 6-1.5l-2 1.5c1.5 0 3 .8 4 2-2-.5-4-.5-6 0z" fill="#7C8C3F"/>'
-		. '</svg>';
-}
-
-/**
  * Inner-page hero. Title from the page, lede from the excerpt, photo from
  * the featured image, background from the "Page hero" box.
  */

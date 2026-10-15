@@ -77,17 +77,6 @@ header.site {
 
 .footer-logo { height: 62px; width: auto; display: block; margin-bottom: 14px; }
 
-.brand .seal-sm { width: 42px; height: 42px; flex-shrink: 0; }
-.brand .word { display: flex; flex-direction: column; line-height: 1.08; }
-.brand .word .big {
-  font-family: 'Nunito Sans', sans-serif; font-weight: 900; font-size: 1.32rem;
-  letter-spacing: .01em; color: var(--ink);
-}
-.brand .word .small {
-  font-size: .62rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase;
-  color: var(--indigo-soft);
-}
-@media (max-width: 480px) { .brand .word .small { display: none; } }
 .nav ul { display: flex; gap: 2px; list-style: none; margin-left: auto; flex-wrap: wrap; }
 .nav ul a {
   color: var(--ink); text-decoration: none; font-weight: 800; font-size: .85rem;
@@ -177,14 +166,34 @@ header.site {
 .hero-inst .panel .lede { max-width: 34em; font-size: 1.14rem; font-weight: 600; margin: 22px 0 30px; color: var(--cream); opacity: .94; }
 .hero-inst .actions { display: flex; gap: 14px; flex-wrap: wrap; }
 .hero-photo { position: relative; clip-path: polygon(14% 0, 100% 0, 100% 100%, 0 100%); }
-.hero-photo img { width: 100%; height: 100%; object-fit: cover; min-height: 560px; display: block; }
-.hero-seal { position: absolute; left: -6px; bottom: 34px; width: 132px; height: 132px; z-index: 3; filter: drop-shadow(3px 3px 0 var(--ink)); }
+/* Direct child only. The stamp nested inside carries an img too, and this
+   rule's min-height would blow it up to fill the whole photo. */
+.hero-photo > img { width: 100%; height: 100%; object-fit: cover; min-height: 560px; display: block; }
+/* The stamp on the hero photo: the client's logo on a cream card, in the
+   same border-and-hard-shadow language as every other raised thing on the
+   site. It replaced a drawn circular seal, which a wide lockup cannot fit. */
+.hero-stamp {
+  position: absolute; left: -6px; bottom: 34px; z-index: 3;
+  background: var(--cream); border: 2.5px solid var(--ink);
+  border-radius: var(--radius); box-shadow: 5px 5px 0 var(--ink);
+  padding: 15px 20px 11px;
+  display: grid; justify-items: center; gap: 8px;
+}
+.hero-stamp img { height: 52px; width: auto; min-height: 0; display: block; }
+.hero-stamp span {
+  width: 100%; text-align: center;
+  border-top: 1.5px solid rgba(32, 38, 76, .22); padding-top: 7px;
+  font-size: .64rem; font-weight: 900; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--indigo-soft);
+}
 @media (max-width: 900px) {
   .hero-inst-grid { grid-template-columns: 1fr; min-height: auto; }
   .hero-inst .panel { padding: 52px 0 40px; }
   .hero-photo { clip-path: none; }
-  .hero-photo img { min-height: 260px; }
-  .hero-seal { left: 20px; bottom: -30px; width: 96px; height: 96px; }
+  .hero-photo > img { min-height: 260px; }
+  .hero-stamp { left: 16px; bottom: -34px; padding: 11px 15px 8px; gap: 6px; }
+  .hero-stamp img { height: 40px; }
+  .hero-stamp span { font-size: .58rem; padding-top: 5px; }
   .hero-inst .panel h1 { font-size: clamp(2rem, 8vw, 2.8rem); max-width: none; }
 }
 

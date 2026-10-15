@@ -28,12 +28,19 @@ $tiles = taum_programs();
    <?php if ( has_post_thumbnail() ) : the_post_thumbnail( 'taum-hero' ); else : ?>
    <img src="<?php echo esc_url( TAUM_URI . '/assets/images/mural-photo.jpg' ); ?>" alt="<?php esc_attr_e( 'The TAUM building on Second Street in Troy, with a bright mural of birds building a nest together.', 'taum' ); ?>" width="1600" height="1205">
    <?php endif; ?>
-   <svg class="hero-seal" viewBox="0 0 150 150" aria-hidden="true">
-    <defs><path id="sealArc" d="M 75,75 m -58,0 a 58,58 0 1,1 116,0 a 58,58 0 1,1 -116,0"/></defs>
-    <circle cx="75" cy="75" r="70" fill="#FBF7EC" stroke="#20264C" stroke-width="2.5"/>
-    <text style="font-family:'Nunito Sans',sans-serif;font-weight:900;font-size:11.5px;letter-spacing:2px;fill:#20264C;text-transform:uppercase;"><textPath href="#sealArc">Troy Area United Ministries · Est. 1986 ·</textPath></text>
-    <path d="M50 84c8-15 23-21 37-18-6 2-10 5-13 8 8-3 16-1 21 5-7-2-14-1-18 4 5 0 9 3 11 6-8-4-19-4-26 0-5 3-8 3-12-5z" fill="#20264C" transform="translate(0,-4)"/>
-   </svg>
+   <?php
+   /**
+    * The stamp on the photo. It used to be a drawn seal with a bird in it,
+    * from before we had the client's logo. It is the real logo now, in a
+    * card rather than a disc, because the lockup is wide and the founding
+    * year reads better as its own line than bent around a circle.
+    * The image is decorative here: the header already names the site.
+    */
+   ?>
+   <div class="hero-stamp">
+    <img src="<?php echo esc_url( TAUM_URI . '/assets/images/taum-logo.png' ); ?>" alt="" width="414" height="238">
+    <span><?php esc_html_e( 'Est. 1986', 'taum' ); ?></span>
+   </div>
   </div>
  </div>
 </section>
