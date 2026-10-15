@@ -49,6 +49,13 @@ add_action( 'wp_enqueue_scripts', function () {
 	if ( is_front_page() ) {
 		wp_enqueue_script( 'taum-home', TAUM_URI . '/assets/js/home.js', array(), TAUM_VERSION, array( 'strategy' => 'defer' ) );
 	}
+
+	// Gallery photos and event flyers open full size. Loaded wherever a
+	// gallery block might appear, since Abby can add one to any page, and
+	// the script exits on its own when the page has nothing to enlarge.
+	if ( ! is_front_page() ) {
+		wp_enqueue_script( 'taum-lightbox', TAUM_URI . '/assets/js/lightbox.js', array(), TAUM_VERSION, array( 'strategy' => 'defer' ) );
+	}
 } );
 
 /**

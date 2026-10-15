@@ -89,3 +89,80 @@ body.admin-bar .site { top: 32px; }
 
 /* Screen reader text WP expects */
 .screen-reader-text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+
+/* ── Lightbox ──────────────────────────────────────────────────── */
+/* Gallery photos and event flyers open full size. The figures keep their
+   own layout; only the zoom button is added inside them, so none of the
+   masonry or aspect-ratio work above is disturbed. */
+.has-lb { position: relative; }
+.has-lb img { cursor: zoom-in; }
+
+.lb-zoom {
+  position: absolute; top: 8px; right: 8px; z-index: 2;
+  width: 34px; height: 34px; padding: 0;
+  display: grid; place-items: center;
+  border: 2px solid var(--ink); border-radius: 999px;
+  background: var(--cream); color: var(--ink);
+  cursor: zoom-in; opacity: 0; transition: opacity .18s;
+}
+.lb-zoom svg { width: 17px; height: 17px; }
+.has-lb:hover .lb-zoom,
+.lb-zoom:focus-visible { opacity: 1; }
+/* Touch has no hover, so leave the affordance showing. */
+@media (hover: none) { .lb-zoom { opacity: 1; } }
+
+.lb {
+  position: fixed; inset: 0; z-index: 9999;
+  display: grid; place-items: center;
+  padding: 72px 64px 84px;
+  /* Solid, not translucent. At 94% the cream page and its dark text still
+     read through clearly enough to fight the caption on a phone. */
+  background: #12162e;
+}
+.lb[hidden] { display: none; }
+
+.lb-stage { margin: 0; display: grid; place-items: center; gap: 14px; max-width: 100%; max-height: 100%; }
+.lb-stage img {
+  max-width: 100%; max-height: calc(100vh - 190px);
+  width: auto; height: auto; display: block;
+  border: 3px solid var(--ink); border-radius: var(--radius);
+  background: var(--cream);
+}
+.lb.is-loading .lb-stage img { opacity: .25; }
+.lb-stage figcaption {
+  color: var(--cream); font-size: .95rem; font-weight: 700;
+  text-align: center; max-width: 62ch;
+}
+.lb-stage figcaption[hidden] { display: none; }
+
+.lb-count {
+  position: absolute; bottom: 26px; left: 0; right: 0;
+  text-align: center; color: var(--cream); opacity: .75;
+  font-size: .85rem; font-weight: 700;
+}
+
+.lb-close, .lb-nav {
+  position: absolute; z-index: 2; padding: 0;
+  border: 2px solid var(--cream); border-radius: 999px;
+  background: rgba(20, 24, 50, .8); color: var(--cream);
+  cursor: pointer; line-height: 1;
+  display: grid; place-items: center;
+}
+.lb-close { top: 18px; right: 18px; width: 46px; height: 46px; font-size: 1.9rem; }
+.lb-nav { top: 50%; transform: translateY(-50%); width: 50px; height: 50px; font-size: 2.2rem; }
+.lb-prev { left: 14px; }
+.lb-next { right: 14px; }
+.lb-nav[hidden] { display: none; }
+.lb-close:hover, .lb-nav:hover { background: var(--coral); color: var(--ink); border-color: var(--ink); }
+.lb :focus-visible { outline: 3px solid var(--aqua); outline-offset: 3px; }
+
+@media (max-width: 640px) {
+  .lb { padding: 64px 12px 76px; }
+  .lb-stage img { max-height: calc(100vh - 170px); }
+  .lb-nav { width: 42px; height: 42px; font-size: 1.8rem; }
+  .lb-prev { left: 6px; }
+  .lb-next { right: 6px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lb-zoom { transition: none; }
+}
