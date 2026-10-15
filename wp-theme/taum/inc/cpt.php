@@ -55,7 +55,8 @@ add_action( 'init', function () {
 		'publicly_queryable'  => false,
 		'menu_icon'           => 'dashicons-groups',
 		'menu_position'       => 6,
-		'supports'            => array( 'title' ),
+		// The featured image is the partner's logo, shown on the Partners page.
+		'supports'            => array( 'title', 'thumbnail' ),
 		'show_in_rest'        => true,
 	) );
 

@@ -18,6 +18,10 @@
   --teal-deep: #1F6E82;
   --white: #FFFFFF;
   --radius: 14px;
+  /* The display face, as a token. It was being referenced as var(--serif)
+     without ever being defined, so anything asking for it quietly fell back
+     to the body font. */
+  --serif: 'Fraunces', Georgia, serif;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -606,3 +610,35 @@ details .a a { font-weight: 700; }
   .pcard-media { height: 190px; }
   .pcard-body { padding: 18px 18px 16px; }
 }
+
+/* ── Partner logos ─────────────────────────────────────────────── */
+/* Logos arrive at whatever size and proportion each organization has, so
+   every tile is the same box and the logo is fitted inside it rather than
+   filling it. A partner with no logo yet gets the same tile with its name
+   set large, so a half-filled grid still looks deliberate. */
+.logo-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 20px; margin-top: 26px; padding: 0; list-style: none;
+}
+.logo-grid li {
+  background: var(--white); border: 2px solid var(--ink);
+  border-radius: var(--radius); box-shadow: 4px 4px 0 var(--ink);
+  transition: transform .18s, box-shadow .18s;
+}
+.logo-grid li:hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0 var(--ink); }
+.logo-grid li > a,
+.logo-grid li > span.nm {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 12px; height: 100%; padding: 20px 18px; text-decoration: none; color: var(--ink);
+}
+.logo-grid img {
+  max-width: 100%; max-height: 72px; width: auto; height: auto;
+  object-fit: contain; display: block;
+}
+.logo-grid .nm { font-weight: 800; font-size: .9rem; text-align: center; line-height: 1.3; }
+.logo-grid li.no-logo .nm { font-size: 1rem; }
+.logo-grid li > a:hover .nm { text-decoration: underline; text-underline-offset: 4px; }
+
+/* Buttons sitting together directly under a page hero. The class was in the
+   page content from the start but had no rule, so the buttons had no gap. */
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 4px; }
