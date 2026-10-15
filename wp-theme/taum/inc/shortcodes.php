@@ -40,3 +40,42 @@ add_shortcode( 'taum', function ( $atts ) {
 	}
 	return esc_html( taum_opt( $key ) );
 } );
+
+/**
+ * [taum_volunteer_form] embeds the Little Green Light volunteer sign-up.
+ *
+ * Abby sent the embed code on 13 October. It lives here rather than in the
+ * page body for two reasons: WordPress strips script tags from content saved
+ * by anyone without unfiltered_html, which is every editor account on this
+ * site, and keeping it in the theme means a stray keystroke in the editor
+ * cannot break the form.
+ *
+ * The script URL is the form URL with .js on the end, which is how LGL builds
+ * them, so the "Volunteer form" field in TAUM Info drives both the embed and
+ * the fallback link and there is no second copy to keep in step.
+ *
+ * It loads only on pages that use the shortcode, not site-wide.
+ */
+add_shortcode( 'taum_volunteer_form', function () {
+	$url = taum_opt( 'url_volunteer' );
+	if ( ! $url ) {
+		return '';
+	}
+
+	ob_start();
+	?>
+	<div class="lgl-form" id="volunteer-form">
+	 <script type="text/javascript" src="<?php echo esc_url( $url . '.js' ); ?>"></script>
+	 <noscript>
+	  <p><?php
+		  printf(
+			  /* translators: %s: link to the volunteer form */
+			  esc_html__( 'The sign-up form needs JavaScript. %s, or call the office and we will take your details over the phone.', 'taum' ),
+			  '<a href="' . esc_url( $url ) . '">' . esc_html__( 'Open the form in a new page', 'taum' ) . '</a>'
+		  );
+		  ?></p>
+	 </noscript>
+	</div>
+	<?php
+	return ob_get_clean();
+} );

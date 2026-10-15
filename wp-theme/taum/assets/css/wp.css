@@ -166,3 +166,16 @@ body.admin-bar .site { top: 32px; }
 @media (prefers-reduced-motion: reduce) {
   .lb-zoom { transition: none; }
 }
+
+/* ── Embedded Little Green Light forms ─────────────────────────── */
+/* LGL writes an iframe with its own fixed width. Left alone it overflows
+   on a phone, so it is made to fill whatever it is given. */
+.lgl-form {
+  margin-top: 26px;
+  background: var(--white); border: 2px solid var(--ink);
+  border-radius: var(--radius); box-shadow: 5px 5px 0 var(--ink);
+  padding: 20px; overflow: hidden;
+}
+.lgl-form iframe { width: 100% !important; max-width: 100% !important; border: 0; display: block; min-height: 620px; }
+.lgl-form p { color: var(--indigo-soft); }
+@media (max-width: 560px) { .lgl-form { padding: 14px; } }
