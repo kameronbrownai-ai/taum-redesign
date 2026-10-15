@@ -53,7 +53,7 @@ while ( have_posts() ) : the_post();
 	  <?php endforeach; endif; ?>
 
 	  <div class="emptybox">
-	   <p><strong><?php esc_html_e( 'More news soon.', 'taum' ); ?></strong> <?php esc_html_e( 'For the latest between updates, follow us on', 'taum' ); ?> <a href="<?php echo esc_url( taum_opt( 'facebook' ) ); ?>">Facebook</a> <?php esc_html_e( 'and', 'taum' ); ?> <a href="<?php echo esc_url( taum_opt( 'instagram' ) ); ?>">Instagram</a>, <?php esc_html_e( 'or get the newsletter below.', 'taum' ); ?></p>
+	   <p><strong><?php esc_html_e( 'More news soon.', 'taum' ); ?></strong> <?php esc_html_e( 'For the latest between updates, follow us on', 'taum' ); ?> <a href="<?php echo esc_url( taum_opt( 'facebook' ) ); ?>">Facebook</a><?php if ( taum_opt( 'instagram' ) ) : ?> <?php esc_html_e( 'and', 'taum' ); ?> <a href="<?php echo esc_url( taum_opt( 'instagram' ) ); ?>">Instagram</a><?php endif; ?>, <?php esc_html_e( 'or get the newsletter below.', 'taum' ); ?></p>
 	  </div>
 	 </div>
 	</section>

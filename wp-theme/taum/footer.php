@@ -33,7 +33,7 @@
     <h3><?php esc_html_e( 'Follow along', 'taum' ); ?></h3>
     <ul>
      <li><a href="<?php echo esc_url( taum_opt( 'facebook' ) ); ?>">Facebook</a></li>
-     <li><a href="<?php echo esc_url( taum_opt( 'instagram' ) ); ?>">Instagram @taum518</a></li>
+     <?php if ( taum_opt( 'instagram' ) ) : ?><li><a href="<?php echo esc_url( taum_opt( 'instagram' ) ); ?>">Instagram</a></li><?php endif; ?>
      <li><a href="<?php echo esc_url( home_url( '/faq/' ) ); ?>">FAQ</a></li>
     </ul>
    </div>

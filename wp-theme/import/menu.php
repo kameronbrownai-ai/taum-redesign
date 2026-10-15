@@ -45,9 +45,8 @@ taum_mi( $menu_id, 'Impact',             '/#impact',   $pos++, $home );
 taum_mi( $menu_id, 'What we do',         '/#programs', $pos++, $home );
 taum_mi( $menu_id, 'Use the building',   '/#involved', $pos++, $home );
 
-// Flat items
-taum_mi( $menu_id, 'Food', 'food', $pos++ );
-taum_mi( $menu_id, 'Furniture', 'furniture', $pos++ );
+// Food and Furniture are deliberately NOT top level: they live inside
+// Programs, which keeps the bar short and one idea per tab.
 
 // Programs, with every program page under it
 $programs = taum_mi( $menu_id, 'Programs', 'programs', $pos++ );
@@ -58,7 +57,7 @@ foreach ( array(
 	'Community Center'  => 'community-center',
 	'Damien Center'     => 'damien-center',
 	'Campus Chaplaincy' => 'chaplaincy',
-	'MLK Scholarship'   => 'mlk-scholarship',
+	'MLK Programs'      => 'mlk',
 ) as $label => $slug ) {
 	taum_mi( $menu_id, $label, $slug, $pos++, $programs );
 }

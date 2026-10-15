@@ -27,7 +27,7 @@ function taum_option_fields() {
 		'email_office'  => array( 'Office email', 'lmalatesta@taum.org', 'email', 'contact' ),
 		'email_director'=> array( 'Executive Director email', 'nortonlevering@taum.org', 'email', 'contact' ),
 		'facebook'      => array( 'Facebook URL', 'https://www.facebook.com/TroyAreaUnitedMinistries/', 'url', 'contact' ),
-		'instagram'     => array( 'Instagram URL', 'https://www.instagram.com/taum518/', 'url', 'contact' ),
+		'instagram'     => array( 'Instagram URL (leave blank until the account exists)', '', 'url', 'contact' ),
 
 		// Food
 		'meal_monday'   => array( 'Monday meal', 'Monday evenings at 5:45', 'text', 'food' ),

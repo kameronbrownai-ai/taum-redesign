@@ -146,6 +146,26 @@ add_action( 'template_redirect', function () {
 } );
 
 /**
+ * Redirects for pages that have been renamed, so an address someone already
+ * has in hand keeps working. Stored as an option rather than hardcoded, since
+ * the importer adds to it when it moves a page.
+ */
+add_action( 'template_redirect', function () {
+	if ( ! is_404() ) {
+		return;
+	}
+	$map = get_option( 'taum_redirects', array() );
+	if ( ! $map ) {
+		return;
+	}
+	$path = trailingslashit( wp_parse_url( $_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH ) );
+	if ( isset( $map[ $path ] ) ) {
+		wp_safe_redirect( home_url( $map[ $path ] ), 301 );
+		exit;
+	}
+}, 1 );
+
+/**
  * robots.txt: explicitly welcome the AI crawlers.
  */
 add_filter( 'robots_txt', function ( $output ) {

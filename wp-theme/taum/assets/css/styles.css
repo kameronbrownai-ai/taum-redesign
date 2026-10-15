@@ -196,7 +196,9 @@ header.site {
 .quickbar { background: var(--indigo); color: var(--cream); }
 .quickbar .wrap { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0; }
 .quickbar a {
-  color: var(--cream); text-decoration: none; padding: 28px 24px;
+  /* The angle strip below pulls up 30px over this bar. Both are indigo, so an
+     overlapping last line reads as text cut off rather than as a divider. */
+  color: var(--cream); text-decoration: none; padding: 28px 24px 62px;
   display: block; border-left: 1px solid rgba(251,247,236,.18); position: relative;
   transition: background .2s;
 }

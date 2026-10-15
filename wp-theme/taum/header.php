@@ -13,7 +13,7 @@
 <div class="utility-bar">
  <div class="wrap">
   <span><?php echo esc_html( taum_opt( 'address1' ) . ', ' . taum_opt( 'address2' ) . ' · ' . taum_opt( 'phone' ) ); ?></span>
-  <span><a href="<?php echo esc_url( taum_opt( 'facebook' ) ); ?>">Facebook</a> · <a href="<?php echo esc_url( taum_opt( 'instagram' ) ); ?>">Instagram</a> · <?php esc_html_e( 'Founded 1986', 'taum' ); ?></span>
+  <span><a href="<?php echo esc_url( taum_opt( 'facebook' ) ); ?>">Facebook</a><?php if ( taum_opt( 'instagram' ) ) : ?> · <a href="<?php echo esc_url( taum_opt( 'instagram' ) ); ?>">Instagram</a><?php endif; ?> · <?php esc_html_e( 'Founded 1986', 'taum' ); ?></span>
  </div>
 </div>
 
