@@ -367,3 +367,15 @@ function taum_number_word( $n ) {
 	$words = array( 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten' );
 	return isset( $words[ $n ] ) ? $words[ $n ] : (string) $n;
 }
+
+/**
+ * The TAUM logo, as uploaded by the client.
+ *
+ * Read from the WordPress site icon, which is where it already has to live to
+ * produce the favicon and the home-screen icon, so there is one copy and
+ * replacing it in Settings replaces it everywhere the theme prints it.
+ * Returns an empty string if nobody has set one, and callers skip the mark.
+ */
+function taum_logo_url( $size = 512 ) {
+	return function_exists( 'get_site_icon_url' ) ? (string) get_site_icon_url( $size ) : '';
+}

@@ -55,6 +55,9 @@ add_action( 'wp_head', function () {
 			'name'          => 'Troy Area United Ministries',
 			'alternateName' => 'TAUM',
 			'url'           => home_url( '/' ),
+			// Google reads this for the knowledge panel and for the mark beside
+			// a search result, so it wants the logo, not a photograph.
+			'logo'          => taum_logo_url(),
 			'foundingDate'  => '1986',
 			'description'   => wp_strip_all_tags( taum_opt( 'hero_lede' ) ),
 			'address'       => taum_schema_address(),
