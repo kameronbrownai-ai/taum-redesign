@@ -250,7 +250,7 @@ function taum_em( $text ) {
  *
  * A program only appears if its page exists and is published.
  */
-function taum_programs() {
+function taum_programs( $where = 'all' ) {
 	$all = array(
 		'food' => array(
 			'label' => __( 'Food', 'taum' ),
@@ -276,6 +276,9 @@ function taum_programs() {
 		'damien-center' => array(
 			'label' => __( 'The Damien Center', 'taum' ),
 			'cta'   => __( 'Find support', 'taum' ),
+			// Abby, 15 October: off the front page, but keep the page itself
+			// and its place in Programs.
+			'home'  => false,
 			'tone'  => 't-magenta',
 			'accent'=> 'var(--olive-deep)',
 			'icon'  => '<path d="M12 20s-7-4.5-7-9.5A4 4 0 0 1 12 7.5 4 4 0 0 1 19 10.5C19 15.5 12 20 12 20z"/>',
@@ -307,6 +310,11 @@ function taum_programs() {
 	foreach ( $all as $slug => $p ) {
 		$page = get_page_by_path( $slug );
 		if ( ! $page || 'publish' !== $page->post_status ) {
+			continue;
+		}
+		// 'home' => false keeps a program off the homepage tiles while leaving
+		// it everywhere else. Anything without the key is shown in both.
+		if ( 'home' === $where && isset( $p['home'] ) && ! $p['home'] ) {
 			continue;
 		}
 		$p['page'] = $page;

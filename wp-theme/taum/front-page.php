@@ -10,7 +10,7 @@ $badge = explode( '|', taum_opt( 'campaign_badge_text' ) );
 // The tiles come from taum_programs(), the same list the Programs page uses.
 // They used to be a second copy here, and when the MLK page moved to /mlk/
 // this tile silently disappeared while the heading still claimed six.
-$tiles = taum_programs();
+$tiles = taum_programs( 'home' );
 ?>
 
 <section class="hero-inst">
