@@ -2,30 +2,48 @@
    No network calls, no third parties. Everything a visitor types
    stays on their own device. */
 (function () {
+  /* Facts that change live in TAUM Info and arrive on window.TAUM_FACTS.
+     The fallbacks only matter if the inline script failed to load. */
+  var F = window.TAUM_FACTS || {};
+  var HOURS = F.hours || 'Monday, Wednesday and Thursday, 10 am to 4 pm';
+  var PHONE = F.phone || '(518) 274-5920';
+  var TEL   = F.tel   || 'tel:+15182745920';
+  var ADDR  = F.address || '392 2nd Street, Troy, NY 12180';
+  var MONDAY = F.mealMonday || 'Monday evenings at 5:45';
+  var THURS  = F.mealThu || 'Thursdays at noon';
+  var OFFICE = F.office || 'lmalatesta@taum.org';
+
   var KB = [
     {
       id: 'food',
       keys: ['food','eat','eating','hungry','hunger','meal','meals','lunch','dinner','breakfast','pantry','grocery','groceries','fridge','refrigerator','feed','starving','free food'],
-      answer: "Free food, no questions asked. Community meals are <strong>Monday evenings at 5:45</strong> and <strong>Thursdays at noon</strong> at 392 Second Street. Groceries go out with the Thursday meal. The <strong>Free Food Fridge outside our building is open 24 hours a day</strong>, and we try to keep prepared food in it on other days. You don't need an ID or a referral.",
-      links: [['See the food page','/food/'],['Call (518) 274-5920','tel:+15182745920']]
+      answer: "Free food, no questions asked. Community meals are <strong>" + MONDAY + "</strong> and <strong>" + THURS + "</strong> at 392 Second Street. Groceries go out with the Thursday meal. The <strong>Free Food Fridge outside our building is open 24 hours a day</strong>, and we try to keep prepared food in it on other days. You don't need an ID or a referral. If we do not have what you need, Community Compass lists every pantry and meal in Troy.",
+      links: [['See the food page','/food/'],['Other services in Troy','/community-compass/'],['Call ' + PHONE, TEL]]
     },
     {
       id: 'furniture-get',
       keys: ['furniture','bed','beds','bedroom','mattress','dresser','table','chair','chairs','couch','sofa','need furniture','get furniture','sleep on','nothing to sit'],
-      answer: "TAUM's Furniture Program gives good, used furniture <strong>free of charge, with free delivery</strong>, to neighbors starting over. Call <strong>Tyara Burnett at (518) 274-5920 ext. 204</strong>. If you're working with a caseworker or shelter, they can refer you directly.",
-      links: [['See the furniture page','/furniture/'],['Call ext. 204','tel:+15182745920,,204']]
+      answer: "TAUM's Furniture Program gives good, used furniture <strong>free of charge, with free delivery</strong>, to neighbors starting over. Most requests come through a referral, so if you are working with a caseworker at an agency, shelter or congregation, ask them to get in touch. If you are not working with anyone yet, call <strong>Lynn Malatesta on " + PHONE + "</strong> and we will help you find the next step.",
+      links: [['See the furniture page','/furniture/'],['Call ' + PHONE, TEL]]
     },
     {
       id: 'furniture-give',
-      keys: ['donate furniture','give furniture','pick up','pickup','haul','get rid of','drop off furniture'],
-      answer: "Yes, and we come to you. We accept clean, good-condition <strong>beds, dressers, tables, chairs, and living room furniture</strong>, with free pickup from your home. We can't take sleeper sofas or anything needing repair. Call <strong>(518) 274-5920 ext. 204</strong>.",
-      links: [['Furniture details','/furniture/'],['Request a pickup','/contact/']]
+      /* Multi-word keys score 3 against a single word's 2, which is what stops
+         "can I donate a couch" matching the entry about receiving furniture
+         on the word couch alone. */
+      keys: ['donate furniture','give furniture','pick up','pickup','haul','get rid of','drop off furniture',
+             'donate a couch','donate couch','donate a sofa','donate sofa','donate a bed','donate bed',
+             'donate a dresser','donate dresser','donate a table','donate table','donate a chair',
+             'donate my','give away','have furniture','got furniture','old furniture','unwanted furniture',
+             'furniture to give','furniture to donate','collect it','come and get'],
+      answer: "Yes, and we come to you. We accept clean, good-condition <strong>beds, dressers, tables, chairs, and living room furniture</strong>. We cannot take sleeper sofas, china cabinets, heavily floral print upholstery, or anything needing repair. Every pickup costs us fuel, insurance and a crew, so we ask for a donation toward it. Call <strong>Tyara Burnett on " + PHONE + " ext. 204</strong>.",
+      links: [['Furniture details','/furniture/'],['Call ext. 204','tel:+15182745920,,204']]
     },
     {
       id: 'volunteer',
       keys: ['volunteer','volunteering','help out','get involved','give time','serve','sign up'],
       answer: "We'd love the help. There's kitchen crew, furniture moving, stocking the Free Food Fridge, gardening, mentoring teens, and event help. Tell us what interests you and we'll be in touch within a week.",
-      links: [['Get involved','/get-involved/'],['Volunteer form','https://secure.lglforms.com/form_engine/s/tyo0i-3Yd8ZON3oFUVTWuQ']]
+      links: [['Sign up to volunteer','/get-involved/#volunteer'],['Get involved','/get-involved/']]
     },
     {
       id: 'donate',
@@ -41,9 +59,9 @@
     },
     {
       id: 'scholarship',
-      keys: ['scholarship','college','mlk','king','apply','tuition','financial aid'],
-      answer: "The Rev. Martin Luther King Jr. Scholarship supports Rensselaer County graduates heading to college. Applications must be <strong>postmarked by May 4</strong> each year. Questions go to Rev. Abby Norton-Levering at nortonlevering@taum.org.",
-      links: [['Scholarship details','/mlk-scholarship/']]
+      keys: ['scholarship','college','mlk','king','apply','tuition','financial aid','breakfast','worship'],
+      answer: "TAUM has carried Dr. King's work in Rensselaer County since 1997. The <strong>Ronald J. Dukes Memorial MLK Scholarship</strong> supports Rensselaer County students heading to college, and applications open each spring. On MLK weekend there is a worship celebration on the Sunday and a <strong>breakfast at 8:30 am at Franklin Terrace</strong> on the holiday itself. Questions go to Rev. Abby Norton-Levering.",
+      links: [['MLK programs','/mlk/']]
     },
     {
       id: 'damien',
@@ -54,20 +72,26 @@
     {
       id: 'chaplain',
       keys: ['chaplain','chaplaincy','sage','campus','spiritual','pray','prayer','counsel','someone to talk'],
-      answer: "Our chaplaincy at Russell Sage College offers pastoral care, de-stress meditation, and care packages for students and staff of every background, every belief, or none. Contact <strong>Darren Gundrum at 518-244-4522</strong> or gundrd@sage.edu.",
+      answer: "Darren Gundrum is the chaplain at Russell Sage College, and the Spirituality Center is open to every student and every tradition, including none at all. There are office hours, an open discussion table on Tuesdays, Mindfulness Mondays, meditation classes, and de-stress bags when finals come around. Contact <strong>Darren Gundrum at 518-244-4522</strong> or gundrd@sage.edu.",
       links: [['Campus chaplaincy','/chaplaincy/']]
     },
     {
       id: 'building',
       keys: ['building','room','space','rent','host','meeting','event space','use the building','venue'],
-      answer: "Our community room, kitchen, and meeting spaces at 392 Second Street are available for neighborhood groups, classes, celebrations, and community projects. Ask us and we'll walk you through it.",
-      links: [['Ask about the building','/get-involved/#building'],['Contact us','/contact/']]
+      answer: "Our community room, kitchen, and smaller meeting rooms at 392 Second Street are available to the neighborhood. <strong>Fifty dollars an hour</strong> for businesses and private hire; for nonprofits and community groups we ask for a donation rather than a rate. Tell us roughly how many people and when, and we will say which room fits.",
+      links: [['About the space','/community-center/'],['Contact us','/contact/']]
     },
     {
       id: 'hours',
       keys: ['hours','open','close','closed','when','today','time','what time','directions','address','where','location','parking','find you'],
-      answer: "We're at <strong>392 2nd Street, Troy, NY 12180</strong>. Office hours are <strong>Monday to Friday, 9 am to 4 pm</strong>. Community meals are Monday at 5:45 pm and Thursday at noon, and the Free Food Fridge outside never closes.",
-      links: [['Contact and directions','/contact/'],['Call (518) 274-5920','tel:+15182745920']]
+      answer: "We're at <strong>" + ADDR + "</strong>. Office hours are <strong>" + HOURS + "</strong>. Community meals are " + MONDAY + " and " + THURS + ", and the Free Food Fridge outside never closes.",
+      links: [['Contact and directions','/contact/'],['Call ' + PHONE, TEL]]
+    },
+    {
+      id: 'compass',
+      keys: ['housing','rent help','evicted','eviction','legal','lawyer','veteran','veterans','english class','esl','mental health','addiction','recovery','senior','seniors','medicaid','benefits','other services','somewhere else','who else'],
+      answer: "We may not run what you need, but we can point you at who does. Community Compass keeps lists of food pantries, community meals, veteran services, English classes, mental health and addiction support, and senior care across Troy and the Capital Region.",
+      links: [['Other services in Troy','/community-compass/'],['Call ' + PHONE, TEL]]
     },
     {
       id: 'religion',
@@ -78,7 +102,7 @@
     {
       id: 'contact',
       keys: ['contact','phone','call','email','talk to someone','staff','who do i','speak'],
-      answer: "The front desk can point you to the right person: <strong>(518) 274-5920</strong>, or lmalatesta@taum.org. Each program also has its own contact listed on the programs page.",
+      answer: "The front desk can point you to the right person: <strong>" + PHONE + "</strong>, or " + OFFICE + ". Office hours are " + HOURS + ". Each program also has its own contact listed on the programs page.",
       links: [['All programs and contacts','/programs/'],['Contact page','/contact/']]
     }
   ];
@@ -86,17 +110,19 @@
   /* Who handles what. Each knowledge entry names a staff contact so the
      concierge can route a visitor to the right person. */
   var STAFF = {
-    food:      { who: 'Barbara Healey', role: 'Damien Center Coordinator', ext: '206', email: 'lmalatesta@taum.org', subject: 'Question about food and meals' },
-    furniture: { who: 'Tyara Burnett',  role: 'Furniture Program Director', ext: '204', email: 'lmalatesta@taum.org', subject: 'Question about the Furniture Program' },
+    food:      { who: 'Barbara Healey', role: 'Damien Center Coordinator', ext: '206', email: OFFICE, subject: 'Question about food and meals' },
+    furniture: { who: 'Tyara Burnett',  role: 'Furniture Program Director', ext: '204', email: OFFICE, subject: 'Donating furniture' },
+    furnreq:   { who: 'Lynn Malatesta', role: 'Office Administrator', ext: '', email: OFFICE, subject: 'Requesting furniture' },
     teens:     { who: 'the Tech for Teens team', role: 'Program office', ext: '202', email: 'nortonlevering@taum.org', subject: 'Question about Tech for Teens' },
     abby:      { who: 'Rev. Abby Norton-Levering', role: 'Executive Director', ext: '202', email: 'nortonlevering@taum.org', subject: 'Question for TAUM' },
     chaplain:  { who: 'Darren Gundrum', role: 'Chaplain, Russell Sage College', phone: '5182444522', phoneLabel: '518-244-4522', email: 'gundrd@sage.edu', subject: 'Question about campus chaplaincy' },
-    office:    { who: 'Lynn Malatesta', role: 'Office Administrator', ext: '', email: 'lmalatesta@taum.org', subject: 'Question for TAUM' }
+    office:    { who: 'Lynn Malatesta', role: 'Office Administrator', ext: '', email: OFFICE, subject: 'Question for TAUM' }
   };
 
   var ROUTE = {
-    food: 'food', 'furniture-get': 'furniture', 'furniture-give': 'furniture',
+    food: 'food', 'furniture-get': 'furnreq', 'furniture-give': 'furniture',
     volunteer: 'office', donate: 'abby', teens: 'teens', scholarship: 'abby',
+    compass: 'office',
     damien: 'food', chaplain: 'chaplain', building: 'abby', hours: 'office',
     religion: 'office', contact: 'office'
   };

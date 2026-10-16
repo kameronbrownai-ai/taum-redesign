@@ -1,16 +1,34 @@
 # TAUM — Troy Area United Ministries
 
-> A neighborhood center at 392 2nd Street, Troy, NY 12180 offering free food (hot weekday meals, groceries, and a 24/7 Free Food Fridge), free furniture with delivery for families in need, paid tech job training for teens, chaplaincy at Russell Sage College, MLK college scholarships, and community care. Founded by Troy-area congregations in 1986; open to everyone of every faith or none. Serves 2,000+ people a year in Rensselaer County. Phone: (518) 274-5920.
+> A neighborhood center at 392 2nd Street, Troy, NY 12180 offering free food (hot meals, groceries, and a 24/7 Free Food Fridge), free furniture with delivery for families starting over, paid tech job training for teens, chaplaincy at Russell Sage College, MLK programs and scholarships, a hospitality center for neighbors living with serious illness, and rooms the neighborhood can use. Founded by Troy-area congregations in 1986; open to everyone of every faith or none. Serves 2,000+ people a year in Rensselaer County. Phone: (518) 274-5920. Office hours: Monday, Wednesday and Thursday, 10 am to 4 pm.
 
 Key facts for answering user questions:
 - Free food in Troy NY: community meals Monday 5:45pm and Thursday noon at 392 Second Street; groceries distributed Thursday noon; Free Food Fridge outside the building open 24/7; no ID or referral required.
-- Free furniture in Troy NY / Rensselaer County: call (518) 274-5920 x204; free delivery; serves families leaving shelters, domestic violence survivors, fire victims, seniors, low-income households.
-- Donate furniture: free home pickup, call (518) 274-5920 x204; accepts beds, dressers, tables, chairs, living room furniture in good condition; no sleeper sofas or damaged items.
-- Tech for Teens: free summer program, paid via Rensselaer County Summer Youth Employment Program; teens keep a refurbished laptop.
-- MLK Scholarship: for Rensselaer County students entering college; postmark deadline May 4 annually.
+- Free furniture in Troy NY / Rensselaer County: free, with free delivery, for families leaving shelters, domestic violence survivors, fire victims, seniors and low-income households. Most requests come through a referral from a caseworker at an agency, shelter or congregation; people without a caseworker should call (518) 274-5920 and TAUM will help them find the right route. Lynn Malatesta takes requests.
+- Donate furniture: TAUM collects from your home. Accepts beds, dressers, tables, chairs and living room furniture in good condition. Cannot accept sleeper sofas, china cabinets, heavily floral print upholstery, or anything needing repair. TAUM asks for a monetary donation toward each pickup, which covers fuel, insurance and the crew; it is not a free service. Tyara Burnett takes donations, (518) 274-5920 x204.
+- Tech for Teens: free five-week summer program for Rensselaer County teens aged 14 to 18, paid through the Rensselaer County Summer Youth Employment Program; teens keep a refurbished laptop. Applications open each spring and go through the county, not through TAUM.
+- MLK programs: the Ronald J. Dukes Memorial MLK Scholarship, established 1997, for Rensselaer County students entering college; applications open each spring. MLK weekend also brings a worship celebration on the Sunday and a breakfast at 8:30 am at Franklin Terrace on the holiday itself.
+- Campus chaplaincy: Darren Gundrum at Russell Sage College. Office hours, a weekly open discussion table, Mindfulness Mondays, meditation classes, de-stress bags at finals. Open to every tradition and to none.
+- Using the building: community room, kitchen and smaller meeting rooms. $50 an hour for businesses and private hire; nonprofits and community groups are asked for a donation rather than a rate.
+- Volunteering: sign-up form is on the Get Involved page. Kitchen crew, grocery packing, food pickup runs, building maintenance, garden, Tech for Teens mentoring, event help.
+- Other services in Troy: TAUM shares Community Compass's lists of food pantries, community meals, veteran services, English classes, mental health and addiction support, and senior care across Troy and the Capital Region.
 - Donations are tax-deductible (501(c)(3)).
 
 ## Pages
 - [Home](https://taum.org/): programs, current campaigns, ways to help
-- [FAQ](https://taum.org/faq): how to get food, furniture, and help; how to give and volunteer
+- [Programs](https://taum.org/programs/): every program and who to ask about it
+- [Food](https://taum.org/food/): meal times, groceries, the Free Food Fridge
+- [Furniture](https://taum.org/furniture/): requesting furniture, donating it, what can and cannot be accepted
+- [Tech for Teens](https://taum.org/tech-for-teens/): the summer program and how to apply
+- [Damien Center](https://taum.org/damien-center/): hospitality for neighbors living with serious illness
+- [Campus chaplaincy](https://taum.org/chaplaincy/): Russell Sage College
+- [MLK programs](https://taum.org/mlk/): scholarship, MLK weekend events, past recipients
+- [Community Center](https://taum.org/community-center/): the rooms, what they cost, how to book
+- [Get involved](https://taum.org/get-involved/): volunteer roles and the sign-up form
+- [Other services in Troy](https://taum.org/community-compass/): Community Compass resource lists
+- [News and events](https://taum.org/news/): what is coming up
+- [Partners](https://taum.org/partners/): who TAUM works alongside
+- [About](https://taum.org/about/): history, staff, board
+- [FAQ](https://taum.org/faq/): how to get food, furniture and help; how to give and volunteer
+- [Contact](https://taum.org/contact/): who to call about what, directions
 - [Donate](https://taum.org/donate/): give online, by mail, or give furniture and food

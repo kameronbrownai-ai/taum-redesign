@@ -46,6 +46,24 @@ add_action( 'wp_enqueue_scripts', function () {
 
 	wp_enqueue_script( 'taum-concierge', TAUM_URI . '/assets/js/concierge.js', array(), TAUM_VERSION, array( 'strategy' => 'defer' ) );
 
+	// The concierge used to carry its own copy of the hours, the phone number
+	// and the meal times, and they went stale the first time any of them
+	// changed. It reads them from TAUM Info now, same as every page does.
+	wp_add_inline_script(
+		'taum-concierge',
+		'window.TAUM_FACTS=' . wp_json_encode( array(
+			'hours'      => taum_opt( 'hours' ),
+			'phone'      => taum_opt( 'phone' ),
+			'tel'        => taum_tel(),
+			'mealMonday' => taum_opt( 'meal_monday' ),
+			'mealThu'    => taum_opt( 'meal_thursday' ),
+			'address'    => taum_opt( 'address1' ) . ', ' . taum_opt( 'address2' ),
+			'office'     => taum_opt( 'email_office' ),
+			'director'   => taum_opt( 'email_director' ),
+		) ) . ';',
+		'before'
+	);
+
 	if ( is_front_page() ) {
 		wp_enqueue_script( 'taum-home', TAUM_URI . '/assets/js/home.js', array(), TAUM_VERSION, array( 'strategy' => 'defer' ) );
 	}
