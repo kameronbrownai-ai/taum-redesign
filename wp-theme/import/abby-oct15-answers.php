@@ -43,7 +43,7 @@ $settings = array(
 	'stat3_l'    => 'households furnished',
 	'stat4_n'    => '16',
 	'stat4_s'    => '',
-	'stat4_l'    => 'teens in Tech for Teens',
+	'stat4_l'    => 'teens in Tech for Teens each summer',
 );
 
 foreach ( $settings as $k => $v ) {
