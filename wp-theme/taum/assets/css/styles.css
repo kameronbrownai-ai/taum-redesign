@@ -646,3 +646,13 @@ details .a a { font-weight: 700; }
 /* Buttons sitting together directly under a page hero. The class was in the
    page content from the start but had no rule, so the buttons had no gap. */
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 4px; }
+
+/* Download link under each flyer. Separate from the image, which opens the
+   lightbox, so viewing and saving are two different clicks. */
+.flyer-dl {
+  display: inline-flex; align-items: center; gap: 5px; margin-top: 8px;
+  font-size: .78rem; font-weight: 800; color: var(--coral-dark);
+  text-decoration: none;
+}
+.flyer-dl svg { width: 14px; height: 14px; }
+.flyer-dl:hover { text-decoration: underline; text-underline-offset: 3px; }

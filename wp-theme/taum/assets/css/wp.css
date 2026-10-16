@@ -179,3 +179,23 @@ body.admin-bar .site { top: 32px; }
 .lgl-form iframe { width: 100% !important; max-width: 100% !important; border: 0; display: block; min-height: 620px; }
 .lgl-form p { color: var(--indigo-soft); }
 @media (max-width: 560px) { .lgl-form { padding: 14px; } }
+
+/* ── Embedded map ──────────────────────────────────────────────── */
+/* Sized by ratio so it matches the card beside it at any width and does
+   not collapse to nothing on a phone. */
+.map-embed {
+  border: 2px solid var(--ink); border-radius: var(--radius);
+  box-shadow: 5px 5px 0 var(--ink); overflow: hidden;
+  margin-top: 22px; background: var(--cream-deep);
+  /* Full width of the page, and tall enough to show the surrounding
+     streets rather than just the pin. */
+  height: clamp(300px, 40vw, 540px);
+}
+/* Address and directions sit above the map rather than beside it, so the
+   map itself gets the whole width. */
+.find-us {
+  display: flex; flex-wrap: wrap; align-items: flex-end;
+  justify-content: space-between; gap: 18px; margin-top: 14px;
+}
+.find-us > div { max-width: 62ch; }
+.map-embed iframe { width: 100%; height: 100%; border: 0; display: block; }
