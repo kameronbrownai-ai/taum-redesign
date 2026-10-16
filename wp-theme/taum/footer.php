@@ -27,6 +27,7 @@
      <li><a href="<?php echo esc_url( home_url( '/tech-for-teens/' ) ); ?>">Tech for Teens</a></li>
      <li><a href="<?php echo esc_url( home_url( '/chaplaincy/' ) ); ?>">Campus chaplaincy</a></li>
      <li><a href="<?php echo esc_url( home_url( '/mlk/' ) ); ?>">MLK Programs</a></li>
+     <li><a href="<?php echo esc_url( home_url( '/community-compass/' ) ); ?>">Other services in Troy</a></li>
      <li><a href="<?php echo esc_url( home_url( '/faq/' ) ); ?>">Questions, answered</a></li>
     </ul>
    </div>

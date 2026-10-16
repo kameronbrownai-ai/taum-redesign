@@ -32,6 +32,10 @@ body {
   line-height: 1.65;
   font-size: 17px;
   overflow-x: hidden;
+  /* A long email address or URL in body copy has no break point, so on a
+     narrow screen it pushes the whole page sideways. Let anything that
+     cannot fit break rather than overflow. */
+  overflow-wrap: break-word;
 }
 h1, h2, h3 { font-family: 'Fraunces', Georgia, serif; font-weight: 640; line-height: 1.06; letter-spacing: -0.015em; }
 h1 { font-size: clamp(2.4rem, 5.5vw, 4.2rem); }
