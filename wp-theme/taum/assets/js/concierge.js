@@ -215,8 +215,19 @@
     religion: 'office', contact: 'office'
   };
 
-  var URGENT = ['emergency','suicide','suicidal','kill myself','hurt myself','abuse','abusive','being hit','hits me','danger','dangerous','crisis','overdose','911',
-                'unsafe','not safe','afraid of him','afraid of her','domestic violence','threatening me','scared to go home','nowhere to sleep','homeless tonight'];
+  /* Matched against the stemmed sentence, so every entry here is written
+     stemmed too. "hits me" silently stopped working when stemming arrived,
+     because the sentence had become "hit me". A miss here costs far more
+     than a false positive, so this list is deliberately generous. */
+  var URGENT = ['emergency','suicide','suicidal','kill myself','killing myself','end my life','end it all',
+                'want to die','better off dead','hurt myself','harm myself','self harm',
+                'abuse','abusive','abusing me','being hit','hit me','hitting me','beat me','beating me',
+                'hurt me','hurting me','hurts me','assault','assaulted','raped','rape',
+                'danger','dangerous','crisis','overdose','overdosing','911',
+                'unsafe','not safe','afraid of him','afraid of her','afraid of my','scared of him','scared of her',
+                'domestic violence','threatening me','threatened me','threaten me','stalking me','stalker',
+                'scared to go home','afraid to go home','nowhere to sleep','nowhere to go','no where to go',
+                'homeless tonight','sleeping in my car','kicked me out','thrown out tonight'];
 
   var GREET = ['hi','hello','hey','good morning','good afternoon','thanks','thank you','ok','okay'];
 
@@ -252,8 +263,14 @@
       if (t.indexOf(URGENT[i]) !== -1) {
         return {
           id: 'urgent',
-          answer: "If you're in immediate danger or a crisis, please call <strong>911</strong>, or the <strong>988 Suicide and Crisis Lifeline</strong> (call or text 988). For domestic violence, the Samaritans hotline in Troy is <strong>518-689-4673</strong>. TAUM's office is at (518) 274-5920 during weekday hours, and we'll help however we can.",
-          links: [['Call 988', 'tel:988'], ['Call TAUM', 'tel:+15182745920']]
+          /* The old wording called 518-689-4673 "the Samaritans hotline" and
+             offered it for domestic violence. Samaritans is a listening and
+             suicide-prevention line, not a domestic violence service, so that
+             sent people to the wrong place, and the number itself could not be
+             verified. These three are national, stable and checkable. A local
+             Rensselaer County line should be added once Abby confirms it. */
+          answer: "If you're in immediate danger, call <strong>911</strong>. For a crisis or if you're thinking about harming yourself, call or text <strong>988</strong>, the Suicide and Crisis Lifeline, free and open all day and night. For domestic violence, the <strong>National Domestic Violence Hotline</strong> is <strong>1-800-799-7233</strong>, or text START to 88788. TAUM's office is " + PHONE + " during office hours, and we will help however we can.",
+          links: [['Call 988', 'tel:988'], ['Domestic violence hotline', 'tel:+18007997233'], ['Call TAUM', TEL]]
         };
       }
     }
