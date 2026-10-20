@@ -427,5 +427,119 @@ function taum_concierge_data() {
 		}
 	}
 
-	return array( 'pages' => $pages, 'faq' => $faq );
+	/* The index is built from the words on each page, so a new page is
+	   findable by what it says, not only by what it is called. */
+	$raw = array();
+	foreach ( taum_programs() as $slug => $p ) {
+		$page = $p['page'];
+		$raw[ $slug ] = array(
+			'strong' => $p['label'] . ' ' . get_the_title( $page ) . ' ' . ( has_excerpt( $page ) ? get_the_excerpt( $page ) : '' ),
+			'body'   => wp_strip_all_tags( do_shortcode( $page->post_content ) ),
+		);
+	}
+	/* The resource page is not a programme but it is where several questions
+	   should land, so it is indexed alongside them. */
+	$compass = get_page_by_path( 'community-compass' );
+	if ( $compass ) {
+		$pages['community-compass'] = array(
+			'label'   => 'Other services in Troy',
+			'title'   => get_the_title( $compass ),
+			'intro'   => has_excerpt( $compass ) ? wp_strip_all_tags( get_the_excerpt( $compass ) ) : '',
+			'url'     => get_permalink( $compass ),
+			'cta'     => 'See the lists',
+			'contact' => '',
+		);
+		$raw['community-compass'] = array(
+			'strong' => get_the_title( $compass ) . ' ' . ( has_excerpt( $compass ) ? get_the_excerpt( $compass ) : '' ),
+			'body'   => wp_strip_all_tags( do_shortcode( $compass->post_content ) ),
+		);
+	}
+
+	return array(
+		'pages' => $pages,
+		'faq'   => $faq,
+		'index' => taum_concierge_index( $raw ),
+	);
+}
+
+/**
+ * Stem a word just enough that singular and plural stop being different
+ * things. Not a real stemmer: "classes" and "class", "pantries" and "pantry",
+ * "beds" and "bed". That one difference caused most of the misses.
+ */
+function taum_stem( $w ) {
+	$w = strtolower( $w );
+	if ( strlen( $w ) > 4 && substr( $w, -3 ) === 'ies' ) { return substr( $w, 0, -3 ) . 'y'; }
+	if ( strlen( $w ) > 4 && substr( $w, -2 ) === 'es' && ! in_array( substr( $w, -3, 1 ), array( 'a','e','i','o','u' ), true ) ) { return substr( $w, 0, -2 ); }
+	if ( strlen( $w ) > 3 && substr( $w, -1 ) === 's' && substr( $w, -2 ) !== 'ss' ) { return substr( $w, 0, -1 ); }
+	return $w;
+}
+
+/**
+ * Words too common to tell two pages apart. Dropping them keeps the index
+ * about what a page is, rather than about English.
+ */
+function taum_stopwords() {
+	return array_flip( explode( ' ',
+		'the and that have with this from they been more will your you our for are was were his her she him них ' .
+		'what when where which who whom whose why how all any both each few other some such only own same than too ' .
+		'very can just should now also into over under about after before between through during above below ' .
+		'taum troy street second does did done get gets got give gives given take takes make makes made ' .
+		'need needs want wants come comes coming here there them then their these those every else ' .
+		'people person neighbor neighbors community program programs free help helps helping ' .
+		'call calls called phone email please thanks thank one two three ' .
+		'year years day days time times new old out off up down back way ways thing things' ) );
+}
+
+/**
+ * A small search index over the program pages, so a visitor's words can find
+ * a page even when nobody wrote a keyword for it.
+ *
+ * Terms from the title and the intro count for more than terms from the body,
+ * because that is where a page says what it is. Only the strongest terms per
+ * page are sent, which keeps this to a few kilobytes.
+ */
+function taum_concierge_index( $pages_raw ) {
+	$stop  = taum_stopwords();
+	$index = array();
+
+	foreach ( $pages_raw as $slug => $parts ) {
+		$weights = array();
+		foreach ( array( 'strong' => 3, 'body' => 1 ) as $where => $weight ) {
+			$words = preg_split( '/[^a-z0-9]+/i', strtolower( $parts[ $where ] ), -1, PREG_SPLIT_NO_EMPTY );
+			foreach ( $words as $w ) {
+				if ( strlen( $w ) < 4 ) { continue; }
+				$t = taum_stem( $w );
+				if ( isset( $stop[ $t ] ) || strlen( $t ) < 4 ) { continue; }
+				$weights[ $t ] = ( isset( $weights[ $t ] ) ? $weights[ $t ] : 0 ) + $weight;
+			}
+		}
+		/* Keep the long tail. Sorting by frequency and taking the top forty
+		   threw away "gratitude", "dukes" and "gator", which are mentioned
+		   once each and are precisely the words that identify a page beyond
+		   doubt. The whole index is a few kilobytes either way. */
+		arsort( $weights );
+		foreach ( array_slice( $weights, 0, 200, true ) as $term => $w ) {
+			if ( ! isset( $index[ $term ] ) ) { $index[ $term ] = array(); }
+			$index[ $term ][ $slug ] = $w;
+		}
+	}
+
+	// A term on every page tells us nothing, so drop it.
+	$limit = max( 2, (int) ceil( count( $pages_raw ) * 0.6 ) );
+	foreach ( $index as $term => $hits ) {
+		if ( count( $hits ) > $limit ) {
+			unset( $index[ $term ] );
+			continue;
+		}
+		/* How rare a word is matters more than how often it is repeated.
+		   "Gratitude" appears once, on one page, and that one mention tells
+		   us more than a dozen mentions of a word several pages share. A term
+		   unique to one page is enough on its own; a shared one needs help. */
+		$rarity = 1 === count( $hits ) ? 6 : ( 2 === count( $hits ) ? 2 : 1 );
+		foreach ( $hits as $slug => $w ) {
+			$index[ $term ][ $slug ] = $w * $rarity;
+		}
+	}
+	return $index;
 }

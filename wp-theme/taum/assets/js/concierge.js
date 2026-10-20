@@ -220,13 +220,28 @@
 
   var GREET = ['hi','hello','hey','good morning','good afternoon','thanks','thank you','ok','okay'];
 
-  function normalize(s) { return (' ' + s.toLowerCase().replace(/[^a-z0-9 ]/g, ' ') + ' ').replace(/\s+/g, ' '); }
+  /* Singular and plural should not be different words. This is the same
+     rule the PHP side uses when it builds the index, so the two agree. */
+  function stem(w) {
+    w = w.toLowerCase();
+    if (w.length > 4 && w.slice(-3) === 'ies') return w.slice(0, -3) + 'y';
+    if (w.length > 4 && w.slice(-2) === 'es' && 'aeiou'.indexOf(w.slice(-3, -2)) === -1) return w.slice(0, -2);
+    if (w.length > 3 && w.slice(-1) === 's' && w.slice(-2) !== 'ss') return w.slice(0, -1);
+    return w;
+  }
+  function words(s) {
+    return s.toLowerCase().replace(/[^a-z0-9 ]/g, ' ').split(/\s+/).filter(Boolean).map(stem);
+  }
+  /* Keys are matched against the stemmed sentence, so "english classes"
+     finds the key "english class" without anyone writing both. */
+  function normalize(s) { return ' ' + words(s).join(' ') + ' '; }
 
   function score(text, entry) {
     var t = normalize(text), s = 0;
     entry.keys.forEach(function (k) {
-      if (t.indexOf(' ' + k + ' ') !== -1) s += k.indexOf(' ') !== -1 ? 3 : 2;
-      else if (t.indexOf(k) !== -1) s += 1;
+      var key = ' ' + words(k).join(' ') + ' ';
+      if (t.indexOf(key) !== -1) s += k.indexOf(' ') !== -1 ? 3 : 2;
+      else if (t.indexOf(key.trim()) !== -1) s += 1;
     });
     return s;
   }
@@ -246,8 +261,31 @@
     KB.forEach(function (e) { var s = score(text, e); if (s > bestScore) { bestScore = s; best = e; } });
     if (best && bestScore >= 2) return best;
 
-    /* Nothing curated matched. Try the FAQ before giving up, since it is
-       written from the questions people actually ask. */
+    /* Nothing curated matched. Before the FAQ, ask the index what page these
+       words belong to. This is what lets a page be found by what it says
+       rather than only by a keyword somebody remembered to write. */
+    var INDEX = KBDATA.index || {};
+    var tally = {};
+    words(text).forEach(function (w) {
+      var hits = INDEX[w];
+      if (!hits) return;
+      Object.keys(hits).forEach(function (slug) {
+        tally[slug] = (tally[slug] || 0) + hits[slug];
+      });
+    });
+    var topSlug = null, topScore = 0;
+    Object.keys(tally).forEach(function (slug) {
+      if (tally[slug] > topScore) { topScore = tally[slug]; topSlug = slug; }
+    });
+    /* Six is about two solid terms, or one that is strongly a page's own.
+       Lower than that and it starts answering confidently about nothing. */
+    if (topSlug && topScore >= 6 && PAGES[topSlug]) {
+      var hit = PAGES[topSlug];
+      return { id: 'index-' + topSlug, answer: pageAnswer(hit),
+               links: [[hit.cta || ('About ' + hit.label), hit.url]] };
+    }
+
+    /* Then the FAQ, which is written from the questions people actually ask. */
     var fBest = null, fScore = 0;
     FAQ.forEach(function (e) { var s = score(text, e); if (s > fScore) { fScore = s; fBest = e; } });
     /* Three, not two: an FAQ entry's keys are all single words worth 2, so a
