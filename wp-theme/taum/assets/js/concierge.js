@@ -16,13 +16,17 @@
   var KB = [
     {
       id: 'food',
+      from: 'food',
       keys: ['food','eat','eating','hungry','hunger','meal','meals','lunch','dinner','breakfast','pantry','grocery','groceries','fridge','refrigerator','feed','starving','free food'],
       answer: "Free food, no questions asked. Community meals are <strong>" + MONDAY + "</strong> and <strong>" + THURS + "</strong> at 392 Second Street. Groceries go out with the Thursday meal. The <strong>Free Food Fridge outside our building is open 24 hours a day</strong>, and we try to keep prepared food in it on other days. You don't need an ID or a referral. If we do not have what you need, Community Compass lists every pantry and meal in Troy.",
       links: [['See the food page','/food/'],['Other services in Troy','/community-compass/'],['Call ' + PHONE, TEL]]
     },
     {
       id: 'furniture-get',
-      keys: ['furniture','bed','beds','bedroom','mattress','dresser','table','chair','chairs','couch','sofa','need furniture','get furniture','sleep on','nothing to sit'],
+      /* Claims the slug without taking the page's intro: the tuned answer
+         about referrals and which number to call is better than the lede. */
+      covers: 'furniture',
+      keys: ['furniture','bed','beds','bedroom','mattress','dresser','table','chair','chairs','couch','sofa','need furniture','get furniture','sleep on','nothing to sit','caseworker','referral','referred','refer me'],
       answer: "TAUM's Furniture Program gives good, used furniture <strong>free of charge, with free delivery</strong>, to neighbors starting over. Most requests come through a referral, so if you are working with a caseworker at an agency, shelter or congregation, ask them to get in touch. If you are not working with anyone yet, call our main number, <strong>" + PHONE + "</strong>, and we will help you find the next step.",
       links: [['See the furniture page','/furniture/'],['Call ' + PHONE, TEL]]
     },
@@ -53,43 +57,51 @@
     },
     {
       id: 'teens',
+      from: 'tech-for-teens',
       keys: ['teen','teens','youth','summer job','summer program','laptop','coding','computer class','tech for teens','student job','job training'],
       answer: "Tech for Teens is a <strong>free summer program</strong> for Rensselaer County teens. Students earn a paycheck through the county's Summer Youth Employment Program, learn Office, web design, and coding, and every graduate keeps a refurbished laptop. Applications open each spring.",
       links: [['Tech for Teens','/tech-for-teens/'],['Call ext. 202','tel:+15182745920,,202']]
     },
     {
       id: 'scholarship',
+      from: 'mlk',
       keys: ['scholarship','college','mlk','king','apply','tuition','financial aid','breakfast','worship'],
       answer: "TAUM has carried Dr. King's work in Rensselaer County since 1997. The <strong>Ronald J. Dukes Memorial MLK Scholarship</strong> supports Rensselaer County students heading to college, and applications open each spring. On MLK weekend there is a worship celebration on the Sunday and a <strong>breakfast at 8:30 am at Franklin Terrace</strong> on the holiday itself. Questions go to Rev. Abby Norton-Levering.",
       links: [['MLK programs','/mlk/']]
     },
     {
       id: 'damien',
+      from: 'damien-center',
       keys: ['damien','illness','sick','hiv','aids','cancer','support group','peer support','diagnosis','barbara','healey'],
       answer: "The Damien Center is a hospitality center for neighbors living with serious illness: meals, friendship, peer support, and help finding services. Everyone is welcome at the table. Reach <strong>Barbara Healey at bhealey@taum.org</strong>, or call " + PHONE + " and leave her a message.",
       links: [['Damien Center','/damien-center/']]
     },
     {
       id: 'chaplain',
+      from: 'chaplaincy',
       keys: ['chaplain','chaplaincy','sage','campus','spiritual','pray','prayer','counsel','someone to talk','darren','gundrum'],
       answer: "Darren Gundrum is the chaplain at Russell Sage College, and the Spirituality Center is open to every student and every tradition, including none at all. There are office hours, an open discussion table on Tuesdays, Mindfulness Mondays, meditation classes, and de-stress bags when finals come around. Contact <strong>Darren Gundrum at 518-244-4522</strong> or gundrd@sage.edu.",
       links: [['Campus chaplaincy','/chaplaincy/']]
     },
     {
       id: 'building',
+      from: 'community-center',
       keys: ['building','room','space','rent','host','meeting','event space','use the building','venue'],
       answer: "Our community room, kitchen, and smaller meeting rooms at 392 Second Street are available to the neighborhood. <strong>Fifty dollars an hour</strong> for businesses and private hire; for nonprofits and community groups we ask for a donation rather than a rate. Tell us roughly how many people and when, and we will say which room fits.",
       links: [['About the space','/community-center/'],['Contact us','/contact/']]
     },
     {
       id: 'hours',
-      keys: ['hours','open','close','closed','when','today','time','what time','directions','address','where','location','parking','find you'],
+      /* Not a bare 'where': "where can I get help with housing" is not a
+         request for our address, and a one-word key was winning it. */
+      keys: ['hours','open','close','closed','today','what time','directions','address','location','parking','find you',
+             'where are you','where is taum','where you located','how do i get there','get there'],
       answer: "We're at <strong>" + ADDR + "</strong>. Office hours are <strong>" + HOURS + "</strong>. Community meals are " + MONDAY + " and " + THURS + ", and the Free Food Fridge outside never closes.",
       links: [['Contact and directions','/contact/'],['Call ' + PHONE, TEL]]
     },
     {
       id: 'compass',
-      keys: ['housing','rent help','evicted','eviction','legal','lawyer','veteran','veterans','english class','esl','mental health','addiction','recovery','senior','seniors','medicaid','benefits','other services','somewhere else','who else'],
+      keys: ['housing','rent help','evicted','eviction','legal','lawyer','veteran','veterans','english class','english classes','learn english','esl','mental health','addiction','recovery','senior','seniors','medicaid','benefits','other services','somewhere else','who else'],
       answer: "We may not run what you need, but we can point you at who does. Community Compass keeps lists of food pantries, community meals, veteran services, English classes, mental health and addiction support, and senior care across Troy and the Capital Region.",
       links: [['Other services in Troy','/community-compass/'],['Call ' + PHONE, TEL]]
     },
@@ -106,6 +118,82 @@
       links: [['All programs and contacts','/programs/'],['Contact page','/contact/']]
     }
   ];
+
+  /* ---- The site fills in the rest -------------------------------------
+     window.TAUM_KB arrives from PHP carrying the program pages and the FAQ.
+     Three things happen with it, in this order:
+
+       1. An entry marked `from` swaps its hand-written answer for the intro
+          of that page. The keys stay hand-written, because they describe how
+          people ask, which does not change when the page is rewritten.
+       2. A program page with no entry at all gets one, so adding a page to
+          the site adds it to the concierge.
+       3. Every FAQ pair becomes a low-priority entry, consulted only when
+          nothing above it matched. The FAQ is the list of things people
+          actually ask, so it makes a good long tail.
+     If the data did not arrive, every hand-written answer is still there and
+     the concierge works exactly as it did before. */
+  var KBDATA = window.TAUM_KB || {};
+  var PAGES = KBDATA.pages || {};
+
+  function pageAnswer(p) {
+    var a = p.intro || '';
+    if (p.contact) a += (a ? ' ' : '') + 'Who to ask: ' + p.contact + '.';
+    return a;
+  }
+
+  KB.forEach(function (e) {
+    var p = e.from && PAGES[e.from];
+    if (!p || !p.intro) return;
+    e.answer = pageAnswer(p);
+    /* Compare by path: the generated link is absolute and the hand-written
+       one is relative, so a plain string test leaves two links to the same
+       page sitting next to each other. */
+    var samePage = function (href) {
+      if (href.indexOf('tel:') === 0 || href.indexOf('mailto:') === 0) return false;
+      try { return new URL(href, location.origin).pathname.replace(/\/+$/, '')
+               === new URL(p.url, location.origin).pathname.replace(/\/+$/, ''); }
+      catch (err) { return false; }
+    };
+    e.links = [[p.cta || ('About ' + p.label), p.url]].concat(
+      (e.links || []).filter(function (l) { return !samePage(l[1]); })
+    );
+  });
+
+  var covered = {};
+  KB.forEach(function (e) {
+    if (e.from) covered[e.from] = true;
+    if (e.covers) covered[e.covers] = true;
+  });
+
+  Object.keys(PAGES).forEach(function (slug) {
+    if (covered[slug]) return;
+    var p = PAGES[slug];
+    if (!p.intro) return;
+    /* Keys from what the thing is called. Short words are dropped so a
+       one-letter fragment cannot match everything. */
+    var keys = (p.label + ' ' + slug.replace(/-/g, ' ')).toLowerCase()
+      .split(/[^a-z0-9]+/).filter(function (w) { return w.length > 3; });
+    keys.push(p.label.toLowerCase());
+    KB.push({ id: 'page-' + slug, keys: keys, answer: pageAnswer(p),
+              links: [[p.cta || ('About ' + p.label), p.url]] });
+  });
+
+  /* The FAQ, as a fallback layer. */
+  var STOP = (' the a an and or of to for is are was were be been do does did done have has had get gets got give gives' +
+    ' i you we us my your our me it its this that these those if not no any some all one two' +
+    ' can could will would shall should may might must' +
+    ' how what when where who whom whose why which' +
+    ' with without from into onto about around over under on in at by as than then there their' +
+    ' much many more most other another same such take takes make makes need needs want wants' +
+    ' taum please thanks thank').split(' ');
+  var FAQ = (KBDATA.faq || []).map(function (pair, i) {
+    var keys = pair.q.toLowerCase().split(/[^a-z0-9]+/).filter(function (w) {
+      return w.length > 3 && STOP.indexOf(w) === -1;
+    });
+    var a = pair.a.length > 420 ? pair.a.slice(0, 417).replace(/\s+\S*$/, '') + '…' : pair.a;
+    return { id: 'faq-' + i, keys: keys, answer: a, links: [['Read the FAQ', '/faq/']] };
+  });
 
   /* Who handles what. Each knowledge entry names a staff contact so the
      concierge can route a visitor to the right person. */
@@ -157,6 +245,15 @@
     var best = null, bestScore = 0;
     KB.forEach(function (e) { var s = score(text, e); if (s > bestScore) { bestScore = s; best = e; } });
     if (best && bestScore >= 2) return best;
+
+    /* Nothing curated matched. Try the FAQ before giving up, since it is
+       written from the questions people actually ask. */
+    var fBest = null, fScore = 0;
+    FAQ.forEach(function (e) { var s = score(text, e); if (s > fScore) { fScore = s; fBest = e; } });
+    /* Three, not two: an FAQ entry's keys are all single words worth 2, so a
+       threshold of 2 lets one incidental word answer the wrong question. */
+    if (fBest && fScore >= 3) return fBest;
+
     if (GREET.indexOf(t.trim()) !== -1) {
       return { id: 'greet', answer: "Hello. Ask me about food, furniture, volunteering, donating, our programs, or our hours.", links: [] };
     }

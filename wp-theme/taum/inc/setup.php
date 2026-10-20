@@ -60,7 +60,7 @@ add_action( 'wp_enqueue_scripts', function () {
 			'address'    => taum_opt( 'address1' ) . ', ' . taum_opt( 'address2' ),
 			'office'     => taum_opt( 'email_office' ),
 			'director'   => taum_opt( 'email_director' ),
-		) ) . ';',
+		) ) . ';window.TAUM_KB=' . wp_json_encode( taum_concierge_data() ) . ';',
 		'before'
 	);
 

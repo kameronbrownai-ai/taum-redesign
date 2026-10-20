@@ -376,3 +376,56 @@ function taum_number_word( $n ) {
 function taum_logo_url( $size = 512 ) {
 	return function_exists( 'get_site_icon_url' ) ? (string) get_site_icon_url( $size ) : '';
 }
+
+/**
+ * What the concierge knows, assembled from the site itself.
+ *
+ * The concierge used to carry a frozen copy of every answer, so it drifted
+ * every time a page changed and somebody had to notice. Now it is handed the
+ * program pages and the FAQ at load, and its answers follow whatever Abby
+ * has written. Only the handful of things with no page behind them, a crisis
+ * response, "do I have to be religious", greetings, stay written in the JS.
+ */
+function taum_concierge_data() {
+	$pages = array();
+	foreach ( taum_programs() as $slug => $p ) {
+		$page    = $p['page'];
+		$contact = taum_program_contact( $page->ID );
+
+		$line = '';
+		if ( $contact ) {
+			$line = $contact['name'];
+			if ( $contact['lines'] ) {
+				// The contact helper returns anchors; the concierge wants words.
+				$line .= ': ' . trim( wp_strip_all_tags( implode( ', ', $contact['lines'] ) ) );
+			}
+		}
+
+		$pages[ $slug ] = array(
+			'label'   => $p['label'],
+			'title'   => get_the_title( $page ),
+			'intro'   => has_excerpt( $page ) ? wp_strip_all_tags( get_the_excerpt( $page ) ) : '',
+			'url'     => $p['url'],
+			'cta'     => $p['cta'],
+			'contact' => $line,
+		);
+	}
+
+	// The FAQ accordion, the same pairs seo.php turns into FAQPage schema.
+	$faq  = array();
+	$page = get_page_by_path( 'faq' );
+	if ( $page ) {
+		$content = do_shortcode( $page->post_content );
+		if ( preg_match_all( '#<summary>(.*?)</summary>\s*<div class="a">(.*?)</div>#s', $content, $m, PREG_SET_ORDER ) ) {
+			foreach ( $m as $pair ) {
+				$q = trim( wp_strip_all_tags( $pair[1] ) );
+				$a = trim( preg_replace( '/\s+/', ' ', wp_strip_all_tags( $pair[2] ) ) );
+				if ( $q && $a ) {
+					$faq[] = array( 'q' => $q, 'a' => $a );
+				}
+			}
+		}
+	}
+
+	return array( 'pages' => $pages, 'faq' => $faq );
+}
