@@ -23,7 +23,7 @@
     {
       id: 'furniture-get',
       keys: ['furniture','bed','beds','bedroom','mattress','dresser','table','chair','chairs','couch','sofa','need furniture','get furniture','sleep on','nothing to sit'],
-      answer: "TAUM's Furniture Program gives good, used furniture <strong>free of charge, with free delivery</strong>, to neighbors starting over. Most requests come through a referral, so if you are working with a caseworker at an agency, shelter or congregation, ask them to get in touch. If you are not working with anyone yet, call <strong>Lynn Malatesta on " + PHONE + "</strong> and we will help you find the next step.",
+      answer: "TAUM's Furniture Program gives good, used furniture <strong>free of charge, with free delivery</strong>, to neighbors starting over. Most requests come through a referral, so if you are working with a caseworker at an agency, shelter or congregation, ask them to get in touch. If you are not working with anyone yet, call our main number, <strong>" + PHONE + "</strong>, and we will help you find the next step.",
       links: [['See the furniture page','/furniture/'],['Call ' + PHONE, TEL]]
     },
     {
@@ -31,7 +31,7 @@
       /* Multi-word keys score 3 against a single word's 2, which is what stops
          "can I donate a couch" matching the entry about receiving furniture
          on the word couch alone. */
-      keys: ['donate furniture','give furniture','pick up','pickup','haul','get rid of','drop off furniture',
+      keys: ['tyara','burnett','donate furniture','give furniture','pick up','pickup','haul','get rid of','drop off furniture',
              'donate a couch','donate couch','donate a sofa','donate sofa','donate a bed','donate bed',
              'donate a dresser','donate dresser','donate a table','donate table','donate a chair',
              'donate my','give away','have furniture','got furniture','old furniture','unwanted furniture',
@@ -65,13 +65,13 @@
     },
     {
       id: 'damien',
-      keys: ['damien','illness','sick','hiv','aids','cancer','support group','peer support','diagnosis'],
-      answer: "The Damien Center is a hospitality center for neighbors living with serious illness: meals, friendship, peer support, and help finding services. Everyone is welcome at the table. Reach <strong>Barbara Healey at (518) 274-5920 ext. 206</strong>.",
+      keys: ['damien','illness','sick','hiv','aids','cancer','support group','peer support','diagnosis','barbara','healey'],
+      answer: "The Damien Center is a hospitality center for neighbors living with serious illness: meals, friendship, peer support, and help finding services. Everyone is welcome at the table. Reach <strong>Barbara Healey at bhealey@taum.org</strong>, or call " + PHONE + " and leave her a message.",
       links: [['Damien Center','/damien-center/']]
     },
     {
       id: 'chaplain',
-      keys: ['chaplain','chaplaincy','sage','campus','spiritual','pray','prayer','counsel','someone to talk'],
+      keys: ['chaplain','chaplaincy','sage','campus','spiritual','pray','prayer','counsel','someone to talk','darren','gundrum'],
       answer: "Darren Gundrum is the chaplain at Russell Sage College, and the Spirituality Center is open to every student and every tradition, including none at all. There are office hours, an open discussion table on Tuesdays, Mindfulness Mondays, meditation classes, and de-stress bags when finals come around. Contact <strong>Darren Gundrum at 518-244-4522</strong> or gundrd@sage.edu.",
       links: [['Campus chaplaincy','/chaplaincy/']]
     },
@@ -101,7 +101,7 @@
     },
     {
       id: 'contact',
-      keys: ['contact','phone','call','email','talk to someone','staff','who do i','speak'],
+      keys: ['contact','phone','call','email','talk to someone','staff','who do i','speak','lynn','malatesta','abby','norton','levering','front desk'],
       answer: "The front desk can point you to the right person: <strong>" + PHONE + "</strong>, or " + OFFICE + ". Office hours are " + HOURS + ". Each program also has its own contact listed on the programs page.",
       links: [['All programs and contacts','/programs/'],['Contact page','/contact/']]
     }
@@ -110,9 +110,9 @@
   /* Who handles what. Each knowledge entry names a staff contact so the
      concierge can route a visitor to the right person. */
   var STAFF = {
-    food:      { who: 'Barbara Healey', role: 'Damien Center Coordinator', ext: '206', email: OFFICE, subject: 'Question about food and meals' },
+    food:      { who: 'Barbara Healey', role: 'Damien Center Coordinator', ext: '', email: 'bhealey@taum.org', subject: 'Question about food and meals' },
     furniture: { who: 'Tyara Burnett',  role: 'Furniture Program Director', ext: '204', email: OFFICE, subject: 'Donating furniture' },
-    furnreq:   { who: 'Lynn Malatesta', role: 'Office Administrator', ext: '', email: OFFICE, subject: 'Requesting furniture' },
+    furnreq:   { who: 'the front desk', role: 'main number, no extension', ext: '', email: OFFICE, subject: 'Requesting furniture' },
     teens:     { who: 'the Tech for Teens team', role: 'Program office', ext: '202', email: 'nortonlevering@taum.org', subject: 'Question about Tech for Teens' },
     abby:      { who: 'Rev. Abby Norton-Levering', role: 'Executive Director', ext: '202', email: 'nortonlevering@taum.org', subject: 'Question for TAUM' },
     chaplain:  { who: 'Darren Gundrum', role: 'Chaplain, Russell Sage College', phone: '5182444522', phoneLabel: '518-244-4522', email: 'gundrd@sage.edu', subject: 'Question about campus chaplaincy' },

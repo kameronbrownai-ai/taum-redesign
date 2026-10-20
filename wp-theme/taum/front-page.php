@@ -48,7 +48,7 @@ $tiles = taum_programs( 'home' );
 <div class="quickbar" id="food">
  <div class="wrap">
   <a href="<?php echo esc_url( home_url( '/food/' ) ); ?>"><strong><?php esc_html_e( 'Need food?', 'taum' ); ?></strong><span><?php echo esc_html( sprintf( 'Meals %s & %s, plus a 24/7 Free Food Fridge', taum_opt( 'meal_monday_short' ), taum_opt( 'meal_thursday_short' ) ) ); ?></span></a>
-  <a href="<?php echo esc_url( home_url( '/furniture/' ) ); ?>"><strong><?php esc_html_e( 'Need furniture?', 'taum' ); ?></strong><span><?php echo esc_html( sprintf( 'Free, delivered, for neighbors starting over, call %s x204', taum_opt( 'phone' ) ) ); ?></span></a>
+  <a href="<?php echo esc_url( home_url( '/furniture/' ) ); ?>"><strong><?php esc_html_e( 'Need furniture?', 'taum' ); ?></strong><span><?php echo esc_html( sprintf( 'Free, delivered, for neighbors starting over, call %s', taum_opt( 'phone' ) ) ); ?></span></a>
   <a href="<?php echo esc_url( home_url( '/donate/' ) ); ?>"><strong><?php esc_html_e( 'Want to give?', 'taum' ); ?></strong><span><?php esc_html_e( 'Money, furniture, food, or your time, every gift stays in Troy', 'taum' ); ?></span></a>
  </div>
 </div>
